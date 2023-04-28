@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "divejusty/tcg-deck-testing",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Web App for testing decks.",
+    "keywords": ["tcg"],
     "license": "MIT",
     "require": {
         "php": "^8.1",
