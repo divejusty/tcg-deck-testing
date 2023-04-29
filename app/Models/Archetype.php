@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Casts\StringList;
-use Database\Factories\ArchetypeFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,7 +17,9 @@ use Illuminate\Support\Carbon;
  * @property array|null $main_pokemon
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static ArchetypeFactory factory($count = null, $state = [])
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Format> $formats
+ * @property-read int|null $formats_count
+ * @method static \Database\Factories\ArchetypeFactory factory($count = null, $state = [])
  * @method static Builder|Archetype newModelQuery()
  * @method static Builder|Archetype newQuery()
  * @method static Builder|Archetype query()
@@ -40,4 +42,9 @@ class Archetype extends Model
     protected $casts = [
         'main_pokemon' => StringList::class,
     ];
+
+    public function formats(): BelongsToMany
+    {
+        return $this->belongsToMany(Format::class);
+    }
 }

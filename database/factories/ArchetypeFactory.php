@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Archetype>
- * @method Archetype create(?array $attributes)
+ * @method Archetype create(?array $attributes = [])
  */
 class ArchetypeFactory extends Factory
 {
