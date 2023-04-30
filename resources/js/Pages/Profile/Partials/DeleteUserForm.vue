@@ -1,12 +1,13 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/Forms/InputLabel.vue';
-import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/Forms/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
-import { nextTick, ref } from 'vue';
+import DangerButton from '@/Components/DangerButton.vue'
+import InputError from '@/Components/Forms/InputError.vue'
+import InputLabel from '@/Components/Forms/InputLabel.vue'
+import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
+import Modal from '@/Components/Modal.vue'
+import SecondaryButton from '@/Components/SecondaryButton.vue'
+import TextInput from '@/Components/Forms/TextInput.vue'
+import { useForm } from '@inertiajs/vue3'
+import { nextTick, ref } from 'vue'
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -78,16 +79,12 @@ const closeModal = () => {
                 </div>
 
                 <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
-
-                    <DangerButton
-                        class="ml-3"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                        @click="deleteUser"
-                    >
-                        Delete Account
-                    </DangerButton>
+                    <FormActionButtons @FormAction:cancel="closeModal"
+                        @FormAction:confirm="deleteUser"
+                        :isProcessing="form.processing"
+                        :isDangerous="true"
+                        confirmActionText="Delete Account"
+                    />
                 </div>
             </div>
         </Modal>
