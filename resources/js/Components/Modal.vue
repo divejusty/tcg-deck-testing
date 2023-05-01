@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, onUnmounted, watch } from 'vue';
+import { computed, onMounted, onUnmounted, watch } from 'vue'
 
 const props = defineProps({
     show: {
@@ -14,9 +14,9 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
-});
+})
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close'])
 
 watch(
     () => props.show,
@@ -27,26 +27,26 @@ watch(
             document.body.style.overflow = null;
         }
     }
-);
+)
 
 const close = () => {
     if (props.closeable) {
-        emit('close');
+        emit('close')
     }
-};
+}
 
 const closeOnEscape = (e) => {
     if (e.key === 'Escape' && props.show) {
-        close();
+        close()
     }
-};
+}
 
-onMounted(() => document.addEventListener('keydown', closeOnEscape));
+onMounted(() => document.addEventListener('keydown', closeOnEscape))
 
 onUnmounted(() => {
-    document.removeEventListener('keydown', closeOnEscape);
-    document.body.style.overflow = null;
-});
+    document.removeEventListener('keydown', closeOnEscape)
+    document.body.style.overflow = null
+})
 
 const maxWidthClass = computed(() => {
     return {
@@ -55,8 +55,8 @@ const maxWidthClass = computed(() => {
         lg: 'sm:max-w-lg',
         xl: 'sm:max-w-xl',
         '2xl': 'sm:max-w-2xl',
-    }[props.maxWidth];
-});
+    }[props.maxWidth]
+})
 </script>
 
 <template>
