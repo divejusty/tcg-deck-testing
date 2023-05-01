@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\ArchetypeController;
-use App\Http\Controllers\SetController;
+use App\Http\Controllers\FormatController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\SetController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -34,8 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('/archetypes', ArchetypeController::class)->except(['create', 'edit']);
-    Route::resource('/sets', SetController::class)->except(['create', 'edit']);
+    Route::apiResources([
+        '/archetypes' => ArchetypeController::class,
+        '/sets' => SetController::class,
+        '/formats' => FormatController::class,
+    ]);
 });
 
 require __DIR__.'/auth.php';

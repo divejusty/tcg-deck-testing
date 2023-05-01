@@ -24,7 +24,8 @@ const leftItems = computed(() => {
     
     const managementMenu = usePage().props.auth.user.is_admin ? new MenuEntry('Management', [
         { name: 'Sets', target: 'sets.index' },
-        ]) : []
+        { name: 'Formats', target: 'formats.index' },
+    ]) : []
     
     return [
         new MenuEntry('Dashboard', 'dashboard'),

@@ -43,6 +43,8 @@ class Format extends Model
     protected $fillable = [
         'name',
         'is_current',
+        'from_set_id',
+        'to_set_id',
     ];
 
     protected $casts = [

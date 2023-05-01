@@ -43,10 +43,6 @@ class Set extends Model
         'release_date' => 'datetime',
     ];
 
-    protected $appends = [
-        'legal_date',
-    ];
-
     protected function legalDate(): Attribute
     {
         return Attribute::make(get: fn(mixed $value, array $attributes) => Carbon::parse($attributes['release_date'])->addWeeks(3))->shouldCache();
