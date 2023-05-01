@@ -34,8 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('/archetypes', ArchetypeController::class);
-    Route::resource('/sets', SetController::class);
+    Route::resource('/archetypes', ArchetypeController::class)->except(['create', 'edit']);
+    Route::resource('/sets', SetController::class)->except(['create', 'edit']);
 });
 
 require __DIR__.'/auth.php';

@@ -24,7 +24,7 @@ defineProps({
     <AuthenticatedLayout>
         <template #header>
             <div class="flex flex-row justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Archetypes</h2>
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Sets</h2>
                 <SetCreateForm v-if="can_create"/>
             </div>
         </template>
@@ -39,9 +39,7 @@ defineProps({
                 <p>{{ set.code }}</p>
                 <p>{{ set.release_date }}</p>
                 <div class="flex">
-                    <PrimaryButton v-if="set.can_edit">
-                        Edit
-                    </PrimaryButton>
+                    <SetCreateForm v-if="set.can_edit" :set="set" />
                 </div>
             </div>
         </TemplateBox>

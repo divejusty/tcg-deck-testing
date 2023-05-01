@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
+use Illuminate\Validation\Rule;
+
 class SetController extends Controller
 {
     public function __construct()
@@ -24,9 +26,10 @@ class SetController extends Controller
         return inertia('Sets/SetIndex', [
             'sets' => Set::all()
                 ->map(fn(Set $set) => [
+                    'id' => $set->id,
                     'name' => $set->name,
                     'code' => $set->code,
-                    'release_date' => $set->release_date,
+                    'release_date' => $set->release_date->format('Y-m-d'),
                     'can_edit' => $user->can('update', $set),
                 ]),
             'can_create' => fn() => $user->can('create', Set::class),
@@ -39,8 +42,8 @@ class SetController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => ['required','string', 'unique:sets'],
-            'code' => ['required', 'string', 'unique:sets', 'max:8'],
+            'name' => ['required','string', Rule::unique('sets')],
+            'code' => ['required', 'string', Rule::unique('sets'), 'max:8'],
             'release_date' => ['required', 'date'],
         ]);
         
@@ -58,19 +61,19 @@ class SetController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Set $set)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Set $set)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required','string', Rule::unique('sets')->ignore($set)],
+            'code' => ['required', 'string', Rule::unique('sets')->ignore($set), 'max:8'],
+            'release_date' => ['required', 'date'],
+        ]);
+
+        $set->update($data);
+
+        return to_route('sets.index');
     }
 
     /**

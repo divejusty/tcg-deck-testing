@@ -9,10 +9,17 @@ import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
 import { useForm } from '@inertiajs/vue3'
 import { nextTick, ref } from 'vue'
 
+const props = defineProps({
+    set: {
+        type: Object,
+        default: undefined
+    },
+})
+
 const form = useForm({
-    name: '',
-    code: '',
-    release_date: '',
+    name: props.set ? props.set.name : '',
+    code:  props.set ? props.set.code : '',
+    release_date:  props.set ? props.set.release_date : '',
 })
 
 const modalVisible = ref(false)
@@ -25,24 +32,32 @@ const closeModal = () => {
 }
 
 const saveForm = () => {
-    form.post(route('sets.store'), {
+    const postSubmitActions = {
         preserveScroll: true,
         onSuccess: () => {
             form.reset()
             closeModal()
         },
-    })
+    }
+
+    if (props.set !== undefined) {
+        form.put(route('sets.update', props.set.id), postSubmitActions)
+    } else {
+        form.post(route('sets.store'), postSubmitActions)
+    }
 }
 
 </script>
 
 <template>
-    <PrimaryButton @click="showModal">New</PrimaryButton>
+    <PrimaryButton @click="showModal">
+        {{ set ? 'Edit' : 'New set' }}
+    </PrimaryButton>
 
     <Modal :show="modalVisible" @close="closeModal">
         <div class="p-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Add a new set
+                {{ set ? 'Edit an existing set' : 'Add a new set' }}
             </h2>
 
             <div class="mt-6">
@@ -76,15 +91,15 @@ const saveForm = () => {
             </div>
 
             <div class="mt-6">
-                <InputLabel for="release_date" value="release_date" />
+                <InputLabel for="release_date" value="Release date" />
 
                 <TextInput
                     id="release_date"
-                    ref="secondPokemonInput"
+                    ref="releaseDateInput"
                     type="date"
                     v-model="form.release_date"
                     class="mt-1 block w-3/4"
-                    placeholder="Pokemon"
+                    placeholder="Release date"
                 />
 
                 <InputError :message="form.errors.release_date" class="mt-2" />
@@ -94,7 +109,7 @@ const saveForm = () => {
                 <FormActionButtons @FormAction:cancel="closeModal"
                     @FormAction:confirm="saveForm"
                     :isProcessing="form.processing"
-                    confirmActionText="Create"
+                    :confirmActionText="set ? 'Update' : 'Create'"
                 />
             </div>
         </div>
