@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import PokemonIcon from '@/Components/PokemonIcon.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
 import { Head, Link } from '@inertiajs/vue3'
 

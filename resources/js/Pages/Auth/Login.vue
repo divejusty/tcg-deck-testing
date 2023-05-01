@@ -1,11 +1,11 @@
 <script setup>
-import Checkbox from '@/Components/Forms/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import Checkbox from '@/Components/Forms/Checkbox.vue'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
 import InputError from '@/Components/Forms/InputError.vue'
-import InputLabel from '@/Components/Forms/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/Forms/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import InputLabel from '@/Components/Forms/InputLabel.vue'
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
+import TextInput from '@/Components/Forms/TextInput.vue'
+import { Head, Link, useForm } from '@inertiajs/vue3'
 
 defineProps({
     canResetPassword: {
@@ -14,19 +14,19 @@ defineProps({
     status: {
         type: String,
     },
-});
+})
 
 const form = useForm({
     email: '',
     password: '',
     remember: false,
-});
+})
 
 const submit = () => {
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
-    });
-};
+    })
+}
 </script>
 
 <template>

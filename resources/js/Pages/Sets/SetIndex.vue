@@ -1,8 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
-import PokemonIcon from '@/Components/PokemonIcon.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
 import SetCreateForm from './Partials/SetCreateForm.vue'
 import { Head, Link } from '@inertiajs/vue3'
 
@@ -19,7 +17,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Archetypes" />
+    <Head title="Sets" />
 
     <AuthenticatedLayout>
         <template #header>

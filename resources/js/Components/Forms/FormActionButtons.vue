@@ -1,7 +1,7 @@
 <script setup>
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import SecondaryButton from '@/Components/SecondaryButton.vue'
-import DangerButton from '@/Components/DangerButton.vue'
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
+import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue'
+import DangerButton from '@/Components/Buttons/DangerButton.vue'
 
 defineProps({
     isCancelable: {
@@ -38,7 +38,6 @@ defineEmits([
 <PrimaryButton @click="$emit('FormAction:confirm')"
     v-if="!isDangerous"
     class="ml-3"
-    :class="{ 'opacity-25': isProcessing }"
     :disabled="isProcessing"
 >
     {{ confirmActionText }}
@@ -47,7 +46,6 @@ defineEmits([
 <DangerButton @click="$emit('FormAction:confirm')"
     v-if="isDangerous"
     class="ml-3"
-    :class="{ 'opacity-25': isProcessing }"
     :disabled="isProcessing"
 >
     {{ confirmActionText }}

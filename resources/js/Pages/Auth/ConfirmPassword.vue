@@ -1,20 +1,20 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue'
 import InputError from '@/Components/Forms/InputError.vue'
-import InputLabel from '@/Components/Forms/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/Forms/TextInput.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import InputLabel from '@/Components/Forms/InputLabel.vue'
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
+import TextInput from '@/Components/Forms/TextInput.vue'
+import { Head, useForm } from '@inertiajs/vue3'
 
 const form = useForm({
     password: '',
-});
+})
 
 const submit = () => {
     form.post(route('password.confirm'), {
         onFinish: () => form.reset(),
-    });
-};
+    })
+}
 </script>
 
 <template>

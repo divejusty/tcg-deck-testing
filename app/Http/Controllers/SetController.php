@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Inertia\Response;
 use Inertia\ResponseFactory;
-
-use Illuminate\Validation\Rule;
 
 class SetController extends Controller
 {
