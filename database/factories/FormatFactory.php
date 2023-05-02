@@ -6,7 +6,7 @@ use App\Models\Format;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Format>
+ * @extends Factory<Format>
  * @method Format create(?array $attributes = [])
  */
 class FormatFactory extends Factory
