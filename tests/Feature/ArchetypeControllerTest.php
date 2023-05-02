@@ -35,7 +35,7 @@ class ArchetypeControllerTest extends TestCase
     {
         $this->get(route('archetypes.index'))
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->component('Archetypes/ArchetypeIndex')
                 ->has('archetypes', 10)
                 ->where('can_create', false)
@@ -50,7 +50,7 @@ class ArchetypeControllerTest extends TestCase
 
         $this->get(route('archetypes.index'))
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->component('Archetypes/ArchetypeIndex')
                 ->where('can_create', true)
                 ->etc()
@@ -63,11 +63,11 @@ class ArchetypeControllerTest extends TestCase
         $this->user->save();
 
         $this->post(route('archetypes.store'), [
-            'name' => 'ZoroRoc',
-            'first_pokemon' => 'Zoroark',
+            'name'           => 'ZoroRoc',
+            'first_pokemon'  => 'Zoroark',
             'second_pokemon' => 'Lycanroc',
         ])->assertRedirect(route('archetypes.index'));
-        
+
         $this->assertEquals(11, Archetype::count());
         $archetype = Archetype::firstWhere('name', 'ZoroRoc');
         $this->assertCount(2, $archetype->main_pokemon);

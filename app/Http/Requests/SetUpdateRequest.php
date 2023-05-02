@@ -13,6 +13,11 @@ use Illuminate\Validation\Rule;
  */
 class SetUpdateRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return $this->user()->can('update', $this->set);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,9 +26,9 @@ class SetUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', Rule::unique('sets')->ignore($this->set)],
-            'code' => ['required', 'string', Rule::unique('sets')->ignore($this->set), 'max:8'],
-            'release_date' => ['required', 'date'],
+            'name'         => [ 'required', 'string', Rule::unique('sets')->ignore($this->set) ],
+            'code'         => [ 'required', 'string', Rule::unique('sets')->ignore($this->set), 'max:8' ],
+            'release_date' => [ 'required', 'date' ],
         ];
     }
 }

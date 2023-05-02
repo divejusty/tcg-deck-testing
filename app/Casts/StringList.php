@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class StringList implements CastsAttributes
 {
     const SEPARATOR = ';';
-    
+
     /**
      * Cast the given value.
      *
@@ -19,7 +19,7 @@ class StringList implements CastsAttributes
         if (is_null($value) || strlen($value) === 0) {
             return [];
         }
-        
+
         return explode(self::SEPARATOR, $value);
     }
 
@@ -28,11 +28,11 @@ class StringList implements CastsAttributes
      *
      * @param  array<string, mixed>  $attributes
      */
-    public function set(Model $model, string $key, mixed $values, array $attributes): ?string
+    public function set(Model $model, string $key, mixed $value, array $attributes): ?string
     {
-        if (is_null($values) || count($values) === 0) {
+        if (is_null($value) || count($value) === 0) {
             return null;
         }
-        return implode(self::SEPARATOR, $values);
+        return implode(self::SEPARATOR, $value);
     }
 }

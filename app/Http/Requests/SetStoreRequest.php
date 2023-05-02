@@ -8,11 +8,15 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * @property Set $set
  * @link Set
  */
 class SetStoreRequest extends FormRequest
 {
+    public function authorize()
+    {
+        return $this->user()->can('create', Set::class);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,9 +25,9 @@ class SetStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', Rule::unique('sets')],
-            'code' => ['required', 'string', Rule::unique('sets'), 'max:8'],
-            'release_date' => ['required', 'date'],
+            'name'         => [ 'required', 'string', Rule::unique('sets') ],
+            'code'         => [ 'required', 'string', Rule::unique('sets'), 'max:8' ],
+            'release_date' => [ 'required', 'date' ],
         ];
     }
 }
