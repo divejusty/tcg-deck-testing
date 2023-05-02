@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Models\Format;
 use App\Models\Set;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 

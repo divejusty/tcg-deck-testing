@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArchetypeStoreRequest;
 use App\Models\Archetype;
 use App\Models\Format;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Inertia\ResponseFactory;
@@ -31,13 +32,9 @@ class ArchetypeController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ArchetypeStoreRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'name' => ['required','string', 'unique:archetypes'],
-            'first_pokemon' => ['nullable', 'string'],
-            'second_pokemon' => ['nullable', 'string'],
-        ]);
+        $data = $request->validated();
 
         $mainPokemon = [];
         if (!is_null($data['first_pokemon']) && strlen($data['first_pokemon'])) {
