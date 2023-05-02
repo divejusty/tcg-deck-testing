@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Set;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
+use App\Http\Requests\SetStoreRequest;
+use App\Http\Requests\SetUpdateRequest;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
@@ -15,7 +16,7 @@ class SetController extends Controller
     {
         $this->authorizeResource(Set::class, 'set');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -38,16 +39,10 @@ class SetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SetStoreRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required','string', Rule::unique('sets')],
-            'code' => ['required', 'string', Rule::unique('sets'), 'max:8'],
-            'release_date' => ['required', 'date'],
-        ]);
-        
-        Set::create($data);
-        
+        Set::create($request->validated());
+
         return to_route('sets.index');
     }
 
@@ -62,15 +57,9 @@ class SetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Set $set)
+    public function update(SetUpdateRequest $request, Set $set)
     {
-        $data = $request->validate([
-            'name' => ['required','string', Rule::unique('sets')->ignore($set)],
-            'code' => ['required', 'string', Rule::unique('sets')->ignore($set), 'max:8'],
-            'release_date' => ['required', 'date'],
-        ]);
-
-        $set->update($data);
+        $set->update($request->validated());
 
         return to_route('sets.index');
     }
