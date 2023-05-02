@@ -16,12 +16,19 @@ jobs:
       with:
         php-version: '8.1'
     - uses: actions/checkout@v3
+    - uses: Jaid/action-npm-install@v1.2.4
+      with:
+        # NODE_ENV setting for installing execution (affects the amount of dependencies installed, but I would recommend keeping development in any case).
+        nodeEnv: development
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+    - name: Generate front-end assets
+      run: npm run build
     - name: Generate key
       run: php artisan key:generate
+    - name: Install node
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
