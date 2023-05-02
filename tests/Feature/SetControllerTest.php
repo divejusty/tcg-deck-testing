@@ -54,4 +54,33 @@ class SetControllerTest extends TestCase
 
         $this->assertEquals(11, Set::count());
     }
+
+    public function test_store_with_input_error()
+    {
+        $this->user->is_admin = true;
+        $this->user->save();
+
+        $this->post(route('sets.store'))
+            ->assertRedirect()
+            ->assertSessionHasErrors(['name', 'code', 'release_date']);
+    }
+
+    public function test_update()
+    {
+        $this->user->is_admin = true;
+        $this->user->save();
+
+        $set = Set::factory()->create();
+        $newCode = '1ST';
+
+        $this->patch(route('sets.update', ['set' => $set->id]), [
+            'name' => $set->name,
+            'code' => $newCode,
+            'release_date' => $set->release_date->format('Y-m-d'),
+        ])->assertRedirect(route('sets.index'));
+
+        $set->refresh();
+
+        $this->assertEquals($newCode, $set->code);
+    }
 }

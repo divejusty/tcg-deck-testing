@@ -6,7 +6,7 @@ use App\Models\Set;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Set>
+ * @extends Factory<Set>
  * @method Set create(?array $attributes = [])
  */
 class SetFactory extends Factory
