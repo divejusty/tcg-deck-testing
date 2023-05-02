@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 defineProps({
     modelValue: {
@@ -17,7 +17,15 @@ defineProps({
 })
 
 defineEmits(['update:modelValue'])
-defineExpose({ focus: () => input.value.focus() })
+
+const input = ref(null)
+
+onMounted(() => {
+    if (input.value.hasAttribute('autofocus')) {
+        input.value.focus()
+    }
+})
+defineExpose({focus: () => input.value.focus()})
 
 const select = ref(null)
 
@@ -32,8 +40,8 @@ const select = ref(null)
     >
         <option value="" :disabled="nullable">Select an option</option>
         <option v-for="{key, value} in items"
-            :key="key"
-            :value="key"
+                :key="key"
+                :value="key"
         >
             {{ value }}
         </option>

@@ -18,7 +18,7 @@ const props = defineProps({
 
 const closeOnEscape = (e) => {
     if (open.value && e.key === 'Escape') {
-        open.value = false;
+        open.value = false
     }
 }
 
@@ -28,7 +28,7 @@ onUnmounted(() => document.removeEventListener('keydown', closeOnEscape))
 const widthClass = computed(() => {
     return {
         48: 'w-48',
-    }[props.width.toString()];
+    }[props.width.toString()]
 })
 
 const alignmentClasses = computed(() => {
@@ -47,7 +47,7 @@ const open = ref(false)
 <template>
     <div class="relative">
         <div @click="open = !open">
-            <slot name="trigger" />
+            <slot name="trigger"/>
         </div>
 
         <!-- Full Screen Dropdown Overlay -->
@@ -69,7 +69,7 @@ const open = ref(false)
                 @click="open = false"
             >
                 <div class="rounded-md ring-1 ring-black ring-opacity-5" :class="contentClasses">
-                    <slot name="content" />
+                    <slot name="content"/>
                 </div>
             </div>
         </transition>

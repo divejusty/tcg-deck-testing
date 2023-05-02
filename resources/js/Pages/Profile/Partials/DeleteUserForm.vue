@@ -4,23 +4,22 @@ import InputError from '@/Components/Forms/InputError.vue'
 import InputLabel from '@/Components/Forms/InputLabel.vue'
 import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
 import Modal from '@/Components/Modal.vue'
-import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue'
 import TextInput from '@/Components/Forms/TextInput.vue'
 import { useForm } from '@inertiajs/vue3'
 import { nextTick, ref } from 'vue'
 
-const confirmingUserDeletion = ref(false);
-const passwordInput = ref(null);
+const confirmingUserDeletion = ref(false)
+const passwordInput = ref(null)
 
 const form = useForm({
     password: '',
-});
+})
 
 const confirmUserDeletion = () => {
-    confirmingUserDeletion.value = true;
+    confirmingUserDeletion.value = true
 
-    nextTick(() => passwordInput.value.focus());
-};
+    nextTick(() => passwordInput.value.focus())
+}
 
 const deleteUser = () => {
     form.delete(route('profile.destroy'), {
@@ -28,14 +27,14 @@ const deleteUser = () => {
         onSuccess: () => closeModal(),
         onError: () => passwordInput.value.focus(),
         onFinish: () => form.reset(),
-    });
-};
+    })
+}
 
 const closeModal = () => {
-    confirmingUserDeletion.value = false;
+    confirmingUserDeletion.value = false
 
-    form.reset();
-};
+    form.reset()
+}
 </script>
 
 <template>
@@ -63,7 +62,7 @@ const closeModal = () => {
                 </p>
 
                 <div class="mt-6">
-                    <InputLabel for="password" value="Password" class="sr-only" />
+                    <InputLabel for="password" value="Password" class="sr-only"/>
 
                     <TextInput
                         id="password"
@@ -75,15 +74,15 @@ const closeModal = () => {
                         @keyup.enter="deleteUser"
                     />
 
-                    <InputError :message="form.errors.password" class="mt-2" />
+                    <InputError :message="form.errors.password" class="mt-2"/>
                 </div>
 
                 <div class="mt-6 flex justify-end">
                     <FormActionButtons @FormAction:cancel="closeModal"
-                        @FormAction:confirm="deleteUser"
-                        :isProcessing="form.processing"
-                        :isDangerous="true"
-                        confirmActionText="Delete Account"
+                                       @FormAction:confirm="deleteUser"
+                                       :isProcessing="form.processing"
+                                       :isDangerous="true"
+                                       confirmActionText="Delete Account"
                     />
                 </div>
             </div>

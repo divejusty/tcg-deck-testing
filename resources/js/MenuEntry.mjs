@@ -1,9 +1,9 @@
 class MenuEntry {
     constructor(name, target) {
         this.name = name
-        
+
         this.hasChildren = Array.isArray(target)
-        
+
         if (this.hasChildren) {
             this.route = undefined
             this.children = target.map((item) => {
@@ -14,19 +14,19 @@ class MenuEntry {
             this.children = []
         }
     }
-    
+
     getName() {
         return this.name
     }
-    
+
     getRoute() {
         return this.route
     }
-    
+
     getChildren() {
         return this.children
     }
-    
+
     isLeaf() {
         return !this.hasChildren
     }

@@ -1,9 +1,8 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
-import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 import FormatCreateForm from './Partials/FormatCreateForm.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 
 const props = defineProps({
     formats: {
@@ -27,7 +26,7 @@ const setName = (setId) => {
 </script>
 
 <template>
-    <Head title="Formats" />
+    <Head title="Formats"/>
 
     <AuthenticatedLayout>
         <template #header>
@@ -51,7 +50,7 @@ const setName = (setId) => {
                     {{ format.is_current ? 'Currently active format' : 'Not Active' }}
                 </div>
                 <div class="flex">
-                    <FormatCreateForm v-if="format.can_edit" :format="format" :sets="sets" />
+                    <FormatCreateForm v-if="format.can_edit" :format="format" :sets="sets"/>
                 </div>
             </div>
         </TemplateBox>

@@ -1,6 +1,5 @@
 <script setup>
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
-import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue'
 import Modal from '@/Components/Modal.vue'
 import TextInput from '@/Components/Forms/TextInput.vue'
 import Checkbox from '@/Components/Forms/Checkbox.vue'
@@ -9,7 +8,7 @@ import SelectBox from '@/Components/Forms/SelectBox.vue'
 import InputError from '@/Components/Forms/InputError.vue'
 import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
 import { useForm } from '@inertiajs/vue3'
-import { nextTick, ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
     format: {
@@ -24,9 +23,9 @@ const props = defineProps({
 
 const form = useForm({
     name: props.format ? props.format.name : '',
-    is_current:  props.format ? props.format.is_current : false,
-    from_set_id:  props.format ? props.format.from_set_id : null,
-    to_set_id:  props.format ? props.format.to_set_id : null,
+    is_current: props.format ? props.format.is_current : false,
+    from_set_id: props.format ? props.format.from_set_id : null,
+    to_set_id: props.format ? props.format.to_set_id : null,
 })
 
 const setSelection = computed(() => {
@@ -78,7 +77,7 @@ const saveForm = () => {
             </h2>
 
             <div class="mt-6">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Name"/>
 
                 <TextInput
                     id="name"
@@ -89,41 +88,41 @@ const saveForm = () => {
                     placeholder="Name"
                 />
 
-                <InputError :message="form.errors.name" class="mt-2" />
+                <InputError :message="form.errors.name" class="mt-2"/>
             </div>
 
             <div class="mt-6">
-                <InputLabel for="from_set_id" value="Starting set" />
+                <InputLabel for="from_set_id" value="Starting set"/>
 
                 <SelectBox v-model="form.from_set_id" :items="setSelection"/>
 
-                <InputError :message="form.errors.from_set_id" class="mt-2" />
+                <InputError :message="form.errors.from_set_id" class="mt-2"/>
             </div>
 
             <div class="mt-6">
-                <InputLabel for="to_set_id" value="Ending set" />
+                <InputLabel for="to_set_id" value="Ending set"/>
 
                 <SelectBox v-model="form.to_set_id" :items="setSelection"/>
 
-                <InputError :message="form.errors.to_set_id" class="mt-2" />
+                <InputError :message="form.errors.to_set_id" class="mt-2"/>
             </div>
 
             <div class="mt-6">
                 <InputLabel for="is_current">
                     <Checkbox name="is_current"
-                        v-model:checked="form.is_current"
+                              v-model:checked="form.is_current"
                     />
                     Currently active format?
                 </InputLabel>
 
-                <InputError :message="form.errors.is_current" class="mt-2" />
+                <InputError :message="form.errors.is_current" class="mt-2"/>
             </div>
 
             <div class="mt-6 flex justify-end">
                 <FormActionButtons @FormAction:cancel="closeModal"
-                    @FormAction:confirm="saveForm"
-                    :isProcessing="form.processing"
-                    :confirmActionText="format ? 'Update' : 'Create'"
+                                   @FormAction:confirm="saveForm"
+                                   :isProcessing="form.processing"
+                                   :confirmActionText="format ? 'Update' : 'Create'"
                 />
             </div>
         </div>

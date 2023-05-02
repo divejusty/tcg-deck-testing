@@ -4,13 +4,13 @@ import { computed } from 'vue'
 const props = defineProps({
     pokemon: {
         type: String,
-        default: 'substitute', 
+        default: 'substitute',
     },
 })
 
 const imagePath = computed(() => {
     let pokemonName = props.pokemon.toLowerCase()
-    
+
     if (pokemonName === 'substitute') {
         return 'https://play.limitlesstcg.com/img/substitute.png'
     }
@@ -20,5 +20,5 @@ const imagePath = computed(() => {
 </script>
 
 <template>
-<img :src="imagePath" :alt='pokemon' class="h-8">
+    <img :src="imagePath" :alt='pokemon' class="h-8">
 </template>

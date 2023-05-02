@@ -17,6 +17,6 @@ defineProps({
             focus:ring-offset-2 focus:outline-none focus:ring-2
             disabled:opacity-25 shadow-sm"
     >
-        <slot />
+        <slot/>
     </button>
 </template>

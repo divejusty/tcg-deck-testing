@@ -29,25 +29,25 @@ defineEmits([
 </script>
 
 <template>
-<SecondaryButton @click="$emit('FormAction:cancel')"
-    v-if="isCancelable"
->
-    Cancel
-</SecondaryButton>
+    <SecondaryButton @click="$emit('FormAction:cancel')"
+                     v-if="isCancelable"
+    >
+        Cancel
+    </SecondaryButton>
 
-<PrimaryButton @click="$emit('FormAction:confirm')"
-    v-if="!isDangerous"
-    class="ml-3"
-    :disabled="isProcessing"
->
-    {{ confirmActionText }}
-</PrimaryButton>
+    <PrimaryButton @click="$emit('FormAction:confirm')"
+                   v-if="!isDangerous"
+                   class="ml-3"
+                   :disabled="isProcessing"
+    >
+        {{ confirmActionText }}
+    </PrimaryButton>
 
-<DangerButton @click="$emit('FormAction:confirm')"
-    v-if="isDangerous"
-    class="ml-3"
-    :disabled="isProcessing"
->
-    {{ confirmActionText }}
-</DangerButton>
+    <DangerButton @click="$emit('FormAction:confirm')"
+                  v-if="isDangerous"
+                  class="ml-3"
+                  :disabled="isProcessing"
+    >
+        {{ confirmActionText }}
+    </DangerButton>
 </template>

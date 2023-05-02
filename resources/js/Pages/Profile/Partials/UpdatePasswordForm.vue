@@ -6,14 +6,14 @@ import TextInput from '@/Components/Forms/TextInput.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
+const passwordInput = ref(null)
+const currentPasswordInput = ref(null)
 
 const form = useForm({
     current_password: '',
     password: '',
     password_confirmation: '',
-});
+})
 
 const updatePassword = () => {
     form.put(route('password.update'), {
@@ -21,16 +21,16 @@ const updatePassword = () => {
         onSuccess: () => form.reset(),
         onError: () => {
             if (form.errors.password) {
-                form.reset('password', 'password_confirmation');
-                passwordInput.value.focus();
+                form.reset('password', 'password_confirmation')
+                passwordInput.value.focus()
             }
             if (form.errors.current_password) {
-                form.reset('current_password');
-                currentPasswordInput.value.focus();
+                form.reset('current_password')
+                currentPasswordInput.value.focus()
             }
         },
-    });
-};
+    })
+}
 </script>
 
 <template>
@@ -45,7 +45,7 @@ const updatePassword = () => {
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
             <div>
-                <InputLabel for="current_password" value="Current Password" />
+                <InputLabel for="current_password" value="Current Password"/>
 
                 <TextInput
                     id="current_password"
@@ -56,11 +56,11 @@ const updatePassword = () => {
                     autocomplete="current-password"
                 />
 
-                <InputError :message="form.errors.current_password" class="mt-2" />
+                <InputError :message="form.errors.current_password" class="mt-2"/>
             </div>
 
             <div>
-                <InputLabel for="password" value="New Password" />
+                <InputLabel for="password" value="New Password"/>
 
                 <TextInput
                     id="password"
@@ -71,11 +71,11 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password" class="mt-2" />
+                <InputError :message="form.errors.password" class="mt-2"/>
             </div>
 
             <div>
-                <InputLabel for="password_confirmation" value="Confirm Password" />
+                <InputLabel for="password_confirmation" value="Confirm Password"/>
 
                 <TextInput
                     id="password_confirmation"
@@ -85,7 +85,7 @@ const updatePassword = () => {
                     autocomplete="new-password"
                 />
 
-                <InputError :message="form.errors.password_confirmation" class="mt-2" />
+                <InputError :message="form.errors.password_confirmation" class="mt-2"/>
             </div>
 
             <div class="flex items-center gap-4">

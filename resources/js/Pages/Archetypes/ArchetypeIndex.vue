@@ -4,7 +4,7 @@ import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import PokemonIcon from '@/Components/PokemonIcon.vue'
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 
 defineProps({
     archetypes: {
@@ -23,16 +23,16 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Archetypes" />
+    <Head :title="'Archetypes'"/>
 
     <AuthenticatedLayout>
         <template #header>
             <div class="flex flex-row justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Archetypes</h2>
-                <ArchetypeCreateForm v-if="can_create" :formats=formats />
+                <ArchetypeCreateForm v-if="can_create" :formats="formats"/>
             </div>
         </template>
-        
+
         <TemplateBox>
             <div
                 v-for="(archetype, key) in archetypes"

@@ -6,7 +6,7 @@ import InputLabel from '@/Components/Forms/InputLabel.vue'
 import InputError from '@/Components/Forms/InputError.vue'
 import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
 import { useForm } from '@inertiajs/vue3'
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
     set: {
@@ -17,8 +17,8 @@ const props = defineProps({
 
 const form = useForm({
     name: props.set ? props.set.name : '',
-    code:  props.set ? props.set.code : '',
-    release_date:  props.set ? props.set.release_date : '',
+    code: props.set ? props.set.code : '',
+    release_date: props.set ? props.set.release_date : '',
 })
 
 const modalVisible = ref(false)
@@ -60,7 +60,7 @@ const saveForm = () => {
             </h2>
 
             <div class="mt-6">
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" value="Name"/>
 
                 <TextInput
                     id="name"
@@ -71,11 +71,11 @@ const saveForm = () => {
                     placeholder="Name"
                 />
 
-                <InputError :message="form.errors.name" class="mt-2" />
+                <InputError :message="form.errors.name" class="mt-2"/>
             </div>
 
             <div class="mt-6">
-                <InputLabel for="code" value="Set code" />
+                <InputLabel for="code" value="Set code"/>
 
                 <TextInput
                     id="code"
@@ -86,11 +86,11 @@ const saveForm = () => {
                     placeholder="Set code"
                 />
 
-                <InputError :message="form.errors.code" class="mt-2" />
+                <InputError :message="form.errors.code" class="mt-2"/>
             </div>
 
             <div class="mt-6">
-                <InputLabel for="release_date" value="Release date" />
+                <InputLabel for="release_date" value="Release date"/>
 
                 <TextInput
                     id="release_date"
@@ -101,14 +101,14 @@ const saveForm = () => {
                     placeholder="Release date"
                 />
 
-                <InputError :message="form.errors.release_date" class="mt-2" />
+                <InputError :message="form.errors.release_date" class="mt-2"/>
             </div>
 
             <div class="mt-6 flex justify-end">
                 <FormActionButtons @FormAction:cancel="closeModal"
-                    @FormAction:confirm="saveForm"
-                    :isProcessing="form.processing"
-                    :confirmActionText="set ? 'Update' : 'Create'"
+                                   @FormAction:confirm="saveForm"
+                                   :isProcessing="form.processing"
+                                   :confirmActionText="set ? 'Update' : 'Create'"
                 />
             </div>
         </div>

@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import SetCreateForm from './Partials/SetCreateForm.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 
 defineProps({
     sets: {
@@ -17,7 +17,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Sets" />
+    <Head title="Sets"/>
 
     <AuthenticatedLayout>
         <template #header>
@@ -37,7 +37,7 @@ defineProps({
                 <p>{{ set.code }}</p>
                 <p>{{ set.release_date }}</p>
                 <div class="flex">
-                    <SetCreateForm v-if="set.can_edit" :set="set" />
+                    <SetCreateForm v-if="set.can_edit" :set="set"/>
                 </div>
             </div>
         </TemplateBox>
