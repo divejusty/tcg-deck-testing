@@ -1,5 +1,19 @@
 <script setup>
 import MenuItems from '@/Components/Layout/MenuItems.vue'
+import SuccessAlert from "@/Components/Alerts/SuccessAlert.vue"
+import { ref } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
+
+const hasSuccessAlert = ref(false)
+
+// When the page has finished loading, check if we have a success message
+router.on('finish', () => {
+    hasSuccessAlert.value = usePage().props.flash.success !== null
+})
+
+const hideAlert = () => {
+    hasSuccessAlert.value = false
+}
 </script>
 
 <template>
@@ -13,6 +27,10 @@ import MenuItems from '@/Components/Layout/MenuItems.vue'
                     <slot name="header"/>
                 </div>
             </header>
+
+            <SuccessAlert v-if="hasSuccessAlert" @click="hideAlert">
+                {{ $page.props.flash.success }}
+            </SuccessAlert>
 
             <!-- Page Content -->
             <main>

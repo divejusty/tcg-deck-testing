@@ -36,9 +36,9 @@ class SetController extends Controller
      */
     public function store(SetStoreRequest $request): RedirectResponse
     {
-        Set::create($request->validated());
+        $set = Set::create($request->validated());
 
-        return to_route('sets.index');
+        return to_route('sets.index')->with('success', "Successfully created set $set->name!");
     }
 
     /**
@@ -56,7 +56,7 @@ class SetController extends Controller
     {
         $set->update($request->validated());
 
-        return to_route('sets.index');
+        return to_route('sets.index')->with('success', "Successfully updated set $set->name!");
     }
 
     /**
@@ -66,6 +66,6 @@ class SetController extends Controller
     {
         $set->delete();
 
-        return to_route('sets.index');
+        return to_route('sets.index')->with('success', "Successfully deleted set $set->name!");
     }
 }
