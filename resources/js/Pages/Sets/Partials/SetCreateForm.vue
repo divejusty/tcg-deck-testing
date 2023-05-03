@@ -34,7 +34,10 @@ const saveForm = () => {
     const postSubmitActions = {
         preserveScroll: true,
         onSuccess: () => {
-            form.reset()
+            if (props.set === undefined) {
+                // Only reset the form if we're creating a new resource
+                form.reset()
+            }
             closeModal()
         },
     }

@@ -8,7 +8,11 @@ import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
-defineProps({
+const props = defineProps({
+    archetype: {
+        type: Object,
+        default: undefined,
+    },
     formats: {
         type: Array,
         default: [],
@@ -16,9 +20,9 @@ defineProps({
 })
 
 const form = useForm({
-    name: '',
-    first_pokemon: '',
-    second_pokemon: '',
+    name: props.archetype ? props.archetype.name : '',
+    first_pokemon: props.archetype ? props.archetype.first_pokemon ?? '' : '',
+    second_pokemon: props.archetype ? props.archetype.second_pokemon ?? '' : '',
 })
 
 const modalVisible = ref(false)
@@ -31,24 +35,35 @@ const closeModal = () => {
 }
 
 const saveForm = () => {
-    form.post(route('archetypes.store'), {
+    const postSubmitActions = {
         preserveScroll: true,
         onSuccess: () => {
-            form.reset()
+            if (props.format === undefined) {
+                // Only reset if we're creating a new resource
+                form.reset()
+            }
             closeModal()
         },
-    })
+    }
+
+    if (props.archetype !== undefined) {
+        form.put(route('archetypes.update', props.archetype.id), postSubmitActions)
+    } else {
+        form.post(route('archetypes.store'), postSubmitActions)
+    }
 }
 
 </script>
 
 <template>
-    <PrimaryButton @click="showModal">New</PrimaryButton>
+    <PrimaryButton @click="showModal">
+        {{ archetype ? 'Edit' : 'New archetype' }}
+    </PrimaryButton>
 
     <Modal :show="modalVisible" @close="closeModal">
         <div class="p-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Create a new archetype
+                {{ archetype ? 'Update an existing archetype' : 'Create a new archetype' }}
             </h2>
 
             <div class="mt-6">
@@ -106,7 +121,7 @@ const saveForm = () => {
                 <FormActionButtons @FormAction:cancel="closeModal"
                                    @FormAction:confirm="saveForm"
                                    :isProcessing="form.processing"
-                                   confirmActionText="Create"
+                                   :confirmActionText="archetype ? 'Update' : 'Create'"
                 />
             </div>
         </div>

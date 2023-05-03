@@ -74,4 +74,25 @@ class ArchetypeControllerTest extends TestCase
         $this->assertCount(2, $archetype->main_pokemon);
         $this->assertEquals('zoroark', $archetype->main_pokemon[0]);
     }
+
+    public function test_update(): void
+    {
+        $this->user->is_admin = true;
+        $this->user->save();
+
+        $archetype = Archetype::factory()->create([
+            'name'         => 'ZoroPod',
+            'main_pokemon' => [ 'Zoroark', 'Golisopod' ],
+        ]);
+
+        $this->put(route('archetypes.update', [ 'archetype' => $archetype->id ]), [
+            'name'           => 'ZoroRoc',
+            'first_pokemon'  => 'Zoroark',
+            'second_pokemon' => 'Lycanroc',
+        ])->assertRedirect(route('archetypes.index'))
+            ->assertSessionHas('success', 'Successfully updated archetype ZoroRoc!');
+
+        $archetype->refresh();
+        $this->assertEquals('ZoroRoc', $archetype->name);
+    }
 }

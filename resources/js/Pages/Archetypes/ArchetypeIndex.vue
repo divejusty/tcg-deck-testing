@@ -2,7 +2,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import PokemonIcon from '@/Components/PokemonIcon.vue'
-import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
 
@@ -40,17 +39,18 @@ defineProps({
                 class="flex flex-row justify-between my-2"
             >
                 <h3>{{ archetype.name }}</h3>
-                <div class="flex">
-                    <PokemonIcon
-                        v-for="pokemon in archetype.main_pokemon"
-                        :key="pokemon"
-                        :pokemon="pokemon"
+                <div class="flex gap-2">
+                    <!-- TODO: move the icon logic to a separate component-->
+                    <PokemonIcon v-for="pokemon in archetype.main_pokemon"
+                                 :key="pokemon"
+                                 :pokemon="pokemon"
                     />
+                    <PokemonIcon v-if="archetype.main_pokemon.length === 0"/>
                 </div>
                 <div class="flex">
-                    <PrimaryButton v-if="archetype.can_edit">
-                        Edit
-                    </PrimaryButton>
+                    <ArchetypeCreateForm v-if="archetype.can_edit"
+                                         :archetype="archetype"
+                                         :formats="formats"/>
                 </div>
             </div>
         </TemplateBox>

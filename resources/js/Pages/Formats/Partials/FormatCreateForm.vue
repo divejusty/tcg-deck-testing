@@ -40,7 +40,6 @@ const setSelection = computed(() => {
 const modalVisible = ref(false)
 const showModal = () => {
     modalVisible.value = true
-    form.reset()
 }
 
 const closeModal = () => {
@@ -51,7 +50,10 @@ const saveForm = () => {
     const postSubmitActions = {
         preserveScroll: true,
         onSuccess: () => {
-            form.reset()
+            if (props.format === undefined) {
+                // Only reset if we're creating a new resource
+                form.reset()
+            }
             closeModal()
         },
     }
