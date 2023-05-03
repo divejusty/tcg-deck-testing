@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormatRequest;
 use App\Models\Format;
 use App\Models\Set;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class FormatController extends Controller
@@ -13,7 +14,7 @@ class FormatController extends Controller
     {
         $this->authorizeResource(Format::class, 'format');
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -21,28 +22,28 @@ class FormatController extends Controller
     {
         $user = Auth::user();
         return inertia('Formats/FormatIndex', [
-            'formats' => Format::all()
-                ->map(fn(Format $format) => [
-                    'id' => $format->id,
-                    'name' => $format->name,
-                    'is_current' => $format->is_current,
+            'formats'    => Format::all()
+                ->map(fn (Format $format) => [
+                    'id'          => $format->id,
+                    'name'        => $format->name,
+                    'is_current'  => $format->is_current,
                     'from_set_id' => $format->from_set_id,
-                    'to_set_id' => $format->to_set_id,
-                    'can_edit' => $user->can('update', $format),
+                    'to_set_id'   => $format->to_set_id,
+                    'can_edit'    => $user->can('update', $format),
                 ]),
-            'can_create' => fn() => $user->can('create', Format::class),
-            'sets' => Set::orderBy('release_date', 'DESC')->select('id', 'name')->get(),
+            'can_create' => fn () => $user->can('create', Format::class),
+            'sets'       => Set::orderBy('release_date', 'DESC')->select('id', 'name')->get(),
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(FormatRequest $request)
+    public function store(FormatRequest $request): RedirectResponse
     {
-        Format::create($request->validated());
-        
-        return to_route('formats.index');
+        $format = Format::create($request->validated());
+
+        return to_route('formats.index')->with('success', "Successfully created format $format->name!");
     }
 
     /**
@@ -56,11 +57,11 @@ class FormatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(FormatRequest $request, Format $format)
+    public function update(FormatRequest $request, Format $format): RedirectResponse
     {
         $format->update($request->validated());
-        
-        return to_route('formats.index');
+
+        return to_route('formats.index')->with('success', "Successfully updated format $format->name!");
     }
 
     /**

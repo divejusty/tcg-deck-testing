@@ -26,7 +26,7 @@ class FormatControllerTest extends TestCase
     {
         $this->get(route('formats.index'))
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('formats', 10)
                 ->where('can_create', false)
                 ->has('sets')
@@ -36,7 +36,7 @@ class FormatControllerTest extends TestCase
     public function test_store()
     {
         $postData = [
-            'name' => 'testformat',
+            'name'       => 'testformat',
             'is_current' => false,
         ];
 
@@ -51,7 +51,8 @@ class FormatControllerTest extends TestCase
         $this->user->save();
 
         $this->post(route('formats.store'), $postData)
-            ->assertRedirect(route('formats.index'));
+            ->assertRedirect(route('formats.index'))
+            ->assertSessionHas('success', "Successfully created format {$postData['name']}!");
 
         $this->assertEquals(11, Format::count());
     }
@@ -63,7 +64,7 @@ class FormatControllerTest extends TestCase
 
         $this->post(route('formats.store'))
             ->assertRedirect()
-            ->assertSessionHasErrors(['name', 'is_current']);
+            ->assertSessionHasErrors([ 'name', 'is_current' ]);
     }
 
     public function test_store_with_sets()
@@ -75,11 +76,13 @@ class FormatControllerTest extends TestCase
         $setTo = Set::factory()->create();
 
         $this->post(route('formats.store'), [
-            'name' => 'testformat',
-            'is_current' => true,
+            'name'        => 'testformat',
+            'is_current'  => true,
             'from_set_id' => $setFrom->id,
-            'to_set_id' => $setTo->id,
-        ])->assertRedirect(route('formats.index'))->assertSessionHasNoErrors();
+            'to_set_id'   => $setTo->id,
+        ])->assertRedirect(route('formats.index'))
+            ->assertSessionHasNoErrors()
+            ->assertSessionHas('success', "Successfully created format testformat!");
 
         /** @var Format $format */
         $format = Format::orderByDesc('id')->first();
@@ -95,10 +98,11 @@ class FormatControllerTest extends TestCase
 
         $format = Format::factory()->create();
 
-        $this->patch(route('formats.update', ['format' => $format->id]), [
-            'name' => $format->name,
+        $this->patch(route('formats.update', [ 'format' => $format->id ]), [
+            'name'       => $format->name,
             'is_current' => false,
-        ])->assertRedirect(route('formats.index'));
+        ])->assertRedirect(route('formats.index'))
+            ->assertSessionHas('success', "Successfully updated format $format->name!");
 
         $format->refresh();
 

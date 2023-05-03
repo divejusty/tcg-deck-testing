@@ -22,13 +22,13 @@ class ArchetypeController extends Controller
         $user = Auth::user();
         return inertia('Archetypes/ArchetypeIndex', [
             'archetypes' => Archetype::all()
-                ->map(fn(Archetype $archetype) => [
-                    'name' => $archetype->name,
+                ->map(fn (Archetype $archetype) => [
+                    'name'         => $archetype->name,
                     'main_pokemon' => $archetype->main_pokemon,
-                    'can_edit' => $user->can('update', $archetype),
+                    'can_edit'     => $user->can('update', $archetype),
                 ]),
-            'can_create' => fn() => $user->can('create', Archetype::class),
-            'formats' => fn() => Format::all(),
+            'can_create' => fn () => $user->can('create', Archetype::class),
+            'formats'    => fn () => Format::all(),
         ]);
     }
 
@@ -45,10 +45,10 @@ class ArchetypeController extends Controller
         }
 
         Archetype::create([
-            'name' => $data['name'],
+            'name'         => $data['name'],
             'main_pokemon' => $mainPokemon,
         ]);
 
-        return to_route('archetypes.index');
+        return to_route('archetypes.index')->with('success', "Successfully created archetype {$data['name']}!");
     }
 }

@@ -66,7 +66,8 @@ class ArchetypeControllerTest extends TestCase
             'name'           => 'ZoroRoc',
             'first_pokemon'  => 'Zoroark',
             'second_pokemon' => 'Lycanroc',
-        ])->assertRedirect(route('archetypes.index'));
+        ])->assertRedirect(route('archetypes.index'))
+            ->assertSessionHas('success', 'Successfully created archetype ZoroRoc!');
 
         $this->assertEquals(11, Archetype::count());
         $archetype = Archetype::firstWhere('name', 'ZoroRoc');

@@ -50,7 +50,8 @@ class SetControllerTest extends TestCase
         $this->user->save();
 
         $this->post(route('sets.store'), $postData)
-            ->assertRedirect(route('sets.index'));
+            ->assertRedirect(route('sets.index'))
+            ->assertSessionHas('success', "Successfully created set {$postData['name']}!");
 
         $this->assertEquals(11, Set::count());
     }
@@ -77,7 +78,8 @@ class SetControllerTest extends TestCase
             'name'         => $set->name,
             'code'         => $newCode,
             'release_date' => $set->release_date->format('Y-m-d'),
-        ])->assertRedirect(route('sets.index'));
+        ])->assertRedirect(route('sets.index'))
+            ->assertSessionHas('success', "Successfully updated set $set->name!");
 
         $set->refresh();
 
@@ -94,8 +96,11 @@ class SetControllerTest extends TestCase
         $this->user->is_admin = true;
         $this->user->save();
 
-        $this->delete(route('sets.destroy', [ 'set' => Set::first()->id ]))
-            ->assertRedirect(route('sets.index'));
+        $set = Set::first();
+
+        $this->delete(route('sets.destroy', [ 'set' => $set->id ]))
+            ->assertRedirect(route('sets.index'))
+            ->assertSessionHas('success', "Successfully deleted set $set->name!");
 
         $this->assertEquals(9, Set::count());
     }
