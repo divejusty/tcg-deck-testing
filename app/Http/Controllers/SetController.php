@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SetStoreRequest;
 use App\Http\Requests\SetUpdateRequest;
+use App\Http\Resources\SetResource;
 use App\Models\Set;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Inertia\ResponseFactory;
@@ -20,19 +22,12 @@ class SetController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response|ResponseFactory
+    public function index(Request $request): Response|ResponseFactory
     {
         $user = Auth::user();
         return inertia('Sets/SetIndex', [
-            'sets' => Set::all()
-                ->map(fn(Set $set) => [
-                    'id' => $set->id,
-                    'name' => $set->name,
-                    'code' => $set->code,
-                    'release_date' => $set->release_date->format('Y-m-d'),
-                    'can_edit' => $user->can('update', $set),
-                ]),
-            'can_create' => fn() => $user->can('create', Set::class),
+            'sets'       => Set::all()->map(fn (Set $set) => SetResource::make($set)->toArray($request)),
+            'can_create' => fn () => $user->can('create', Set::class),
         ]);
     }
 
@@ -67,8 +62,10 @@ class SetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Set $set)
+    public function destroy(Set $set): RedirectResponse
     {
-        //
+        $set->delete();
+
+        return to_route('sets.index');
     }
 }

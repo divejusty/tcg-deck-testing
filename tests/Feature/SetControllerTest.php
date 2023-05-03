@@ -25,7 +25,7 @@ class SetControllerTest extends TestCase
     {
         $this->get(route('sets.index'))
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('sets', 10)
                 ->where('can_create', false)
             );
@@ -34,8 +34,8 @@ class SetControllerTest extends TestCase
     public function test_store()
     {
         $postData = [
-            'name' => 'testset',
-            'code' => 'tes',
+            'name'         => 'testset',
+            'code'         => 'tes',
             'release_date' => now()->format('Y-m-d'),
         ];
 
@@ -62,7 +62,7 @@ class SetControllerTest extends TestCase
 
         $this->post(route('sets.store'))
             ->assertRedirect()
-            ->assertSessionHasErrors(['name', 'code', 'release_date']);
+            ->assertSessionHasErrors([ 'name', 'code', 'release_date' ]);
     }
 
     public function test_update()
@@ -73,14 +73,30 @@ class SetControllerTest extends TestCase
         $set = Set::factory()->create();
         $newCode = '1ST';
 
-        $this->patch(route('sets.update', ['set' => $set->id]), [
-            'name' => $set->name,
-            'code' => $newCode,
+        $this->patch(route('sets.update', [ 'set' => $set->id ]), [
+            'name'         => $set->name,
+            'code'         => $newCode,
             'release_date' => $set->release_date->format('Y-m-d'),
         ])->assertRedirect(route('sets.index'));
 
         $set->refresh();
 
         $this->assertEquals($newCode, $set->code);
+    }
+
+    public function test_destroy()
+    {
+        $this->delete(route('sets.destroy', [ 'set' => Set::first()->id ]))
+            ->assertForbidden();
+
+        $this->assertEquals(10, Set::count());
+
+        $this->user->is_admin = true;
+        $this->user->save();
+
+        $this->delete(route('sets.destroy', [ 'set' => Set::first()->id ]))
+            ->assertRedirect(route('sets.index'));
+
+        $this->assertEquals(9, Set::count());
     }
 }
