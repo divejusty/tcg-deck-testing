@@ -95,4 +95,18 @@ class ArchetypeControllerTest extends TestCase
         $archetype->refresh();
         $this->assertEquals('ZoroRoc', $archetype->name);
     }
+
+    public function test_delete(): void
+    {
+        $this->user->is_admin = true;
+        $this->user->save();
+
+        $archetype = Archetype::first();
+
+        $this->delete(route('archetypes.destroy', [ 'archetype' => $archetype->id ]))
+            ->assertRedirect(route('archetypes.index'))
+            ->assertSessionHas('success', "Successfully deleted archetype $archetype->name!");
+
+        $this->assertEquals(9, Archetype::count());
+    }
 }

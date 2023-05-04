@@ -4,6 +4,7 @@ import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import PokemonIcon from '@/Components/PokemonIcon.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
+import ArchetypeDeleteForm from "@/Pages/Archetypes/Partials/ArchetypeDeleteForm.vue"
 
 defineProps({
     archetypes: {
@@ -47,10 +48,12 @@ defineProps({
                     />
                     <PokemonIcon v-if="archetype.main_pokemon.length === 0"/>
                 </div>
-                <div class="flex">
+                <div class="flex gap-2">
                     <ArchetypeCreateForm v-if="archetype.can_edit"
                                          :archetype="archetype"
                                          :formats="formats"/>
+                    <ArchetypeDeleteForm v-if="archetype.can_delete"
+                                         :archetype="archetype"/>
                 </div>
             </div>
         </TemplateBox>

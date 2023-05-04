@@ -70,4 +70,11 @@ class ArchetypeController extends Controller
         }
         return $mainPokemon;
     }
+
+    public function destroy(Archetype $archetype): RedirectResponse
+    {
+        $archetype->delete();
+
+        return to_route('archetypes.index')->with('success', "Successfully deleted archetype $archetype->name!");
+    }
 }
