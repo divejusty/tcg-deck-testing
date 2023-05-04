@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormatRequest;
+use App\Http\Resources\FormatResource;
 use App\Models\Format;
 use App\Models\Set;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class FormatController extends Controller
 {
@@ -18,19 +22,11 @@ class FormatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response|ResponseFactory
     {
         $user = Auth::user();
         return inertia('Formats/FormatIndex', [
-            'formats'    => Format::all()
-                ->map(fn (Format $format) => [
-                    'id'          => $format->id,
-                    'name'        => $format->name,
-                    'is_current'  => $format->is_current,
-                    'from_set_id' => $format->from_set_id,
-                    'to_set_id'   => $format->to_set_id,
-                    'can_edit'    => $user->can('update', $format),
-                ]),
+            'formats'    => Format::all()->map(fn (Format $format) => FormatResource::make($format)->toArray($request)),
             'can_create' => fn () => $user->can('create', Format::class),
             'sets'       => Set::orderBy('release_date', 'DESC')->select('id', 'name')->get(),
         ]);
@@ -67,8 +63,10 @@ class FormatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Format $format)
+    public function destroy(Format $format): RedirectResponse
     {
-        //
+        $format->delete();
+
+        return to_route('formats.index')->with('success', "Successfully deleted format $format->name!");
     }
 }

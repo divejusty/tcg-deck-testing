@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import SetCreateForm from './Partials/SetCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
-import SetDeleteForm from "@/Pages/Sets/Partials/SetDeleteForm.vue"
+import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 
 defineProps({
     sets: {
@@ -39,7 +39,11 @@ defineProps({
                 <p>{{ set.release_date }}</p>
                 <div class="flex gap-2">
                     <SetCreateForm v-if="set.can_edit" :set="set"/>
-                    <SetDeleteForm v-if="set.can_delete" :set="set"/>
+                    <ResourceDeleteForm v-if="set.can_delete"
+                                        :resource-name="`${set.name} (${set.code})`"
+                                        resource-type="set"
+                                        :destroyRoute="route('sets.destroy', {set: set.id})"
+                                        :resource="set"/>
                 </div>
             </div>
         </TemplateBox>

@@ -6,14 +6,26 @@ import FormActionButtons from "@/Components/Forms/FormActionButtons.vue"
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
-    set: {
+    resource: {
         type: Object,
         required: true,
     },
+    destroyRoute: {
+        type: String,
+        required: true,
+    },
+    resourceType: {
+        type: String,
+        required: true,
+    },
+    resourceName: {
+        type: String,
+        required: true,
+    }
 })
 
 const form = useForm({
-    id: props.set.id
+    id: props.resource.id
 })
 
 const modalVisible = ref(false)
@@ -26,7 +38,7 @@ const closeModal = () => {
 }
 
 const saveForm = () => {
-    form.delete(route('sets.destroy', {set: props.set.id}), {
+    form.delete(props.destroyRoute, {
         preserveScroll: true,
         onSuccess: () => {
             form.reset()
@@ -44,11 +56,11 @@ const saveForm = () => {
     <Modal :show="modalVisible" @close="closeModal">
         <div class="p-6">
             <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Delete set "{{ `${set.name} (${set.code})` }}"
+                Delete {{ `${resourceType} "${resourceName}"` }}
             </h2>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                Are you sure you want to delete this set? This action cannot be reversed.
+                Are you sure you want to delete this {{ resourceType }}? This action cannot be reversed.
             </p>
 
             <div class="mt-6 flex justify-end">

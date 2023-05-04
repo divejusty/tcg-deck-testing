@@ -4,7 +4,7 @@ import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import PokemonIcon from '@/Components/PokemonIcon.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
-import ArchetypeDeleteForm from "@/Pages/Archetypes/Partials/ArchetypeDeleteForm.vue"
+import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 
 defineProps({
     archetypes: {
@@ -52,8 +52,11 @@ defineProps({
                     <ArchetypeCreateForm v-if="archetype.can_edit"
                                          :archetype="archetype"
                                          :formats="formats"/>
-                    <ArchetypeDeleteForm v-if="archetype.can_delete"
-                                         :archetype="archetype"/>
+                    <ResourceDeleteForm v-if="archetype.can_delete"
+                                        :resource-name="archetype.name"
+                                        resource-type="archetype"
+                                        :destroyRoute="route('archetypes.destroy', {archetype: archetype.id})"
+                                        :resource="archetype"/>
                 </div>
             </div>
         </TemplateBox>

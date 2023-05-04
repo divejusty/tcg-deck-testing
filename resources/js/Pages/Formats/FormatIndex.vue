@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import FormatCreateForm from './Partials/FormatCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
+import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 
 const props = defineProps({
     formats: {
@@ -49,8 +50,13 @@ const setName = (setId) => {
                 <div>
                     {{ format.is_current ? 'Currently active format' : 'Not Active' }}
                 </div>
-                <div class="flex">
+                <div class="flex gap-2">
                     <FormatCreateForm v-if="format.can_edit" :format="format" :sets="sets"/>
+                    <ResourceDeleteForm v-if="format.can_delete"
+                                        :resource-name="format.name"
+                                        resource-type="format"
+                                        :destroyRoute="route('formats.destroy', {format: format.id})"
+                                        :resource="format"/>
                 </div>
             </div>
         </TemplateBox>

@@ -108,4 +108,16 @@ class FormatControllerTest extends TestCase
 
         $this->assertFalse($format->is_current);
     }
+
+    public function test_destroy()
+    {
+        $this->user->is_admin = true;
+        $this->user->save();
+
+        $format = Format::first();
+
+        $this->delete(route('formats.destroy', [ 'format' => $format->id ]))
+            ->assertRedirect(route('formats.index'))
+            ->assertSessionHas('success', "Successfully deleted format $format->name!");
+    }
 }
