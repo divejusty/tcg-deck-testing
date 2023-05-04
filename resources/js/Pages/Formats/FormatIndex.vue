@@ -55,8 +55,7 @@ const setName = (setId) => {
                     <ResourceDeleteForm v-if="format.can_delete"
                                         :resource-name="format.name"
                                         resource-type="format"
-                                        :destroyRoute="route('formats.destroy', {format: format.id})"
-                                        :resource="format"/>
+                                        :destroyRoute="route('formats.destroy', {format: format.id})"/>
                 </div>
             </div>
         </TemplateBox>

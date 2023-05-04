@@ -55,8 +55,7 @@ defineProps({
                     <ResourceDeleteForm v-if="archetype.can_delete"
                                         :resource-name="archetype.name"
                                         resource-type="archetype"
-                                        :destroyRoute="route('archetypes.destroy', {archetype: archetype.id})"
-                                        :resource="archetype"/>
+                                        :destroyRoute="route('archetypes.destroy', {archetype: archetype.id})"/>
                 </div>
             </div>
         </TemplateBox>

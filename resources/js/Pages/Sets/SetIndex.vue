@@ -42,8 +42,7 @@ defineProps({
                     <ResourceDeleteForm v-if="set.can_delete"
                                         :resource-name="`${set.name} (${set.code})`"
                                         resource-type="set"
-                                        :destroyRoute="route('sets.destroy', {set: set.id})"
-                                        :resource="set"/>
+                                        :destroyRoute="route('sets.destroy', {set: set.id})"/>
                 </div>
             </div>
         </TemplateBox>

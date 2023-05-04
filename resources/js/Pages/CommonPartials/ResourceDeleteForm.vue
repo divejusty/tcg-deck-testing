@@ -6,10 +6,6 @@ import FormActionButtons from "@/Components/Forms/FormActionButtons.vue"
 import { useForm } from '@inertiajs/vue3'
 
 const props = defineProps({
-    resource: {
-        type: Object,
-        required: true,
-    },
     destroyRoute: {
         type: String,
         required: true,
@@ -24,9 +20,7 @@ const props = defineProps({
     }
 })
 
-const form = useForm({
-    id: props.resource.id
-})
+const form = useForm({})
 
 const modalVisible = ref(false)
 const showModal = () => {
