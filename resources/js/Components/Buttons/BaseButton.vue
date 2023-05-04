@@ -10,6 +10,7 @@ defineProps({
 <template>
     <button
         class="inline-flex items-center
+            h-8
             px-4 py-2
             border rounded-md
             font-semibold text-xs uppercase

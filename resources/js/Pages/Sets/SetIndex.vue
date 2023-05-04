@@ -3,9 +3,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import SetCreateForm from './Partials/SetCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
-import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
+import { computed } from 'vue'
+import SetCard from "@/Pages/Sets/Partials/SetCard.vue"
+import { compareDates } from "@/utils.mjs"
 
-defineProps({
+const props = defineProps({
     sets: {
         type: Array,
         default: [],
@@ -15,6 +17,8 @@ defineProps({
         default: false,
     },
 })
+
+const setList = computed(() => [...props.sets].sort((a, b) => compareDates(a.release_date, b.release_date, true)))
 </script>
 
 <template>
@@ -29,22 +33,7 @@ defineProps({
         </template>
 
         <TemplateBox>
-            <div
-                v-for="(set, key) in sets"
-                :key="key"
-                class="flex flex-row justify-between my-2"
-            >
-                <h3>{{ set.name }}</h3>
-                <p>{{ set.code }}</p>
-                <p>{{ set.release_date }}</p>
-                <div class="flex gap-2">
-                    <SetCreateForm v-if="set.can_edit" :set="set"/>
-                    <ResourceDeleteForm v-if="set.can_delete"
-                                        :resource-name="`${set.name} (${set.code})`"
-                                        resource-type="set"
-                                        :destroyRoute="route('sets.destroy', {set: set.id})"/>
-                </div>
-            </div>
+            <SetCard v-for="set in setList" :key="set.id" :set="set" class="my-4"/>
         </TemplateBox>
 
     </AuthenticatedLayout>

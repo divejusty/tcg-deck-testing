@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
-import PokemonIcon from '@/Components/PokemonIcon.vue'
+import PokemonIcon from '@/Components/Images/PokemonIcon.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
