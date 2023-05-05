@@ -4,6 +4,7 @@ import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import FormatCreateForm from './Partials/FormatCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
+import { Header2 } from "@/Components/Headers"
 
 const props = defineProps({
     formats: {
@@ -32,7 +33,7 @@ const setName = (setId) => {
     <AuthenticatedLayout>
         <template #header>
             <div class="flex flex-row justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Formats</h2>
+                <Header2>Formats</Header2>
                 <FormatCreateForm v-if="can_create" :sets="sets"/>
             </div>
         </template>

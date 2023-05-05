@@ -2,14 +2,15 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import { Head } from '@inertiajs/vue3'
+import { Header2 } from "@/Components/Headers"
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Dashboard"/>
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
+            <Header2>Dashboard</Header2>
         </template>
 
         <TemplateBox>

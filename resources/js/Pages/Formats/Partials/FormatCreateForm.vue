@@ -9,6 +9,7 @@ import InputError from '@/Components/Forms/InputError.vue'
 import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
 import { useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
+import { Header3 } from "@/Components/Headers"
 
 const props = defineProps({
     format: {
@@ -74,9 +75,9 @@ const saveForm = () => {
 
     <Modal :show="modalVisible" @close="closeModal">
         <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <Header3>
                 {{ format ? 'Edit an existing format' : 'Add a new format' }}
-            </h2>
+            </Header3>
 
             <div class="mt-6">
                 <InputLabel for="name" value="Name"/>

@@ -7,6 +7,7 @@ import Modal from '@/Components/Modal.vue'
 import TextInput from '@/Components/Forms/TextInput.vue'
 import { useForm } from '@inertiajs/vue3'
 import { nextTick, ref } from 'vue'
+import { Header3 } from "@/Components/Headers"
 
 const confirmingUserDeletion = ref(false)
 const passwordInput = ref(null)
@@ -40,7 +41,7 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Delete Account</h2>
+            <Header3>Delete Account</Header3>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting
@@ -52,9 +53,9 @@ const closeModal = () => {
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
-                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                <Header3>
                     Are you sure you want to delete your account?
-                </h2>
+                </Header3>
 
                 <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                     Once your account is deleted, all of its resources and data will be permanently deleted. Please

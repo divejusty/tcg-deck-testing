@@ -4,6 +4,7 @@ import Modal from "@/Components/Modal.vue"
 import { ref } from 'vue'
 import FormActionButtons from "@/Components/Forms/FormActionButtons.vue"
 import { useForm } from '@inertiajs/vue3'
+import { Header3 } from "@/Components/Headers"
 
 const props = defineProps({
     destroyRoute: {
@@ -49,9 +50,9 @@ const saveForm = () => {
 
     <Modal :show="modalVisible" @close="closeModal">
         <div class="p-6">
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            <Header3>
                 Delete {{ `${resourceType} "${resourceName}"` }}
-            </h2>
+            </Header3>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Are you sure you want to delete this {{ resourceType }}? This action cannot be reversed.

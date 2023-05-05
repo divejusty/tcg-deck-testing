@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
 import TextInput from '@/Components/Forms/TextInput.vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import { Header3 } from "@/Components/Headers"
 
 const passwordInput = ref(null)
 const currentPasswordInput = ref(null)
@@ -36,7 +37,7 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Update Password</h2>
+            <Header3>Update Password</Header3>
 
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
                 Ensure your account is using a long, random password to stay secure.
