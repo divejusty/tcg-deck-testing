@@ -1,8 +1,8 @@
 <script setup>
-import DangerButton from "@/Components/Buttons/DangerButton.vue"
+import { DangerButton } from "@/Components/Buttons"
 import Modal from "@/Components/Modal.vue"
 import { ref } from 'vue'
-import FormActionButtons from "@/Components/Forms/FormActionButtons.vue"
+import { FormActionButtons } from "@/Components/Forms"
 import { useForm } from '@inertiajs/vue3'
 import { Header3 } from "@/Components/Headers"
 

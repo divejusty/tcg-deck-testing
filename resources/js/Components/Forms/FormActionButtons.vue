@@ -1,7 +1,5 @@
 <script setup>
-import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
-import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue'
-import DangerButton from '@/Components/Buttons/DangerButton.vue'
+import { DangerButton, PrimaryButton, SecondaryButton } from '@/Components/Buttons'
 
 defineProps({
     isCancelable: {

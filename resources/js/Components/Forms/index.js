@@ -1,0 +1,6 @@
+export {default as Checkbox} from './Checkbox.vue'
+export {default as FormActionButtons} from './FormActionButtons.vue'
+export {default as InputError} from './InputError.vue'
+export {default as InputLabel} from './InputLabel.vue'
+export {default as SelectBox} from './SelectBox.vue'
+export {default as TextInput} from './TextInput.vue'

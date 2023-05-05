@@ -1,12 +1,7 @@
 <script setup>
-import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue'
+import { PrimaryButton } from '@/Components/Buttons'
 import Modal from '@/Components/Modal.vue'
-import TextInput from '@/Components/Forms/TextInput.vue'
-import Checkbox from '@/Components/Forms/Checkbox.vue'
-import InputLabel from '@/Components/Forms/InputLabel.vue'
-import SelectBox from '@/Components/Forms/SelectBox.vue'
-import InputError from '@/Components/Forms/InputError.vue'
-import FormActionButtons from '@/Components/Forms/FormActionButtons.vue'
+import { Checkbox, FormActionButtons, InputError, InputLabel, SelectBox, TextInput } from '@/Components/Forms'
 import { useForm } from '@inertiajs/vue3'
 import { computed, ref } from 'vue'
 import { Header3 } from "@/Components/Headers"
