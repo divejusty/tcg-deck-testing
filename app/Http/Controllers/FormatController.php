@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FormatRequest;
 use App\Http\Resources\FormatResource;
+use App\Http\Resources\SetResource;
 use App\Models\Format;
-use App\Models\Set;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +26,9 @@ class FormatController extends Controller
     {
         $user = Auth::user();
         return inertia('Formats/FormatIndex', [
-            'formats'    => Format::all()->map(fn (Format $format) => FormatResource::make($format)->toArray($request)),
+            'formats'    => FormatResource::collection(Format::all())->toArray($request),
             'can_create' => fn () => $user->can('create', Format::class),
-            'sets'       => Set::orderBy('release_date', 'DESC')->select('id', 'name')->get(),
+            'sets'       => SetResource::generateKeyValueList()->toArray($request),
         ]);
     }
 

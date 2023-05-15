@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resources\GeneratesFullLists;
+use App\Models\Format;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FormatResource extends JsonResource
+class FormatResource extends JsonResource implements GeneratesFullLists
 {
     /**
      * Transform the resource into an array.
@@ -25,5 +27,14 @@ class FormatResource extends JsonResource
             'can_edit'    => $user->can('update', $this->resource),
             'can_delete'  => $user->can('delete', $this->resource),
         ];
+    }
+
+    public static function generateKeyValueList(): ResourceList
+    {
+        return ResourceList::make(Format::get()
+            ->map(fn (Format $format) => [
+                'value' => $format->name,
+                'key'   => $format->id,
+            ]));
     }
 }

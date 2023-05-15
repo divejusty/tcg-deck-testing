@@ -2,9 +2,9 @@
 
 namespace App\Contracts\Resources;
 
-use Illuminate\Http\Request;
+use App\Http\Resources\ResourceList;
 
 interface GeneratesFullLists
 {
-    public static function generateKeyValue(Request $request): array;
+    public static function generateKeyValueList(): ResourceList;
 }

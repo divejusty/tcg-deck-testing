@@ -26,7 +26,7 @@ class SetController extends Controller
     {
         $user = Auth::user();
         return inertia('Sets/SetIndex', [
-            'sets'       => Set::all()->map(fn (Set $set) => SetResource::make($set)->toArray($request)),
+            'sets'       => SetResource::collection(Set::all())->toArray($request),
             'can_create' => fn () => $user->can('create', Set::class),
         ]);
     }

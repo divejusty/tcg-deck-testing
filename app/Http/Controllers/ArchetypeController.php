@@ -24,8 +24,7 @@ class ArchetypeController extends Controller
     {
         $user = Auth::user();
         return inertia('Archetypes/ArchetypeIndex', [
-            'archetypes' => Archetype::all()
-                ->map(fn (Archetype $archetype) => ArchetypeResource::make($archetype)->toArray($request)),
+            'archetypes' => ArchetypeResource::collection(Archetype::all())->toArray($request),
             'can_create' => fn () => $user->can('create', Archetype::class),
             'formats'    => fn () => Format::all(),
         ]);

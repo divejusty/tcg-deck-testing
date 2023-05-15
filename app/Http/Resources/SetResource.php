@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resources\GeneratesFullLists;
+use App\Models\Set;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SetResource extends JsonResource
+class SetResource extends JsonResource implements GeneratesFullLists
 {
     /**
      * Transform the resource into an array.
@@ -24,5 +26,10 @@ class SetResource extends JsonResource
             'can_edit'     => $user->can('update', $this->resource),
             'can_delete'   => $user->can('delete', $this->resource),
         ];
+    }
+
+    public static function generateKeyValueList(): ResourceList
+    {
+        return ResourceList::make(Set::orderBy('release_date', 'DESC')->select('id', 'name')->get());
     }
 }

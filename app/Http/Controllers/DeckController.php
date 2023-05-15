@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DeckRequest;
-use App\Http\Resources\ArchetypeList;
+use App\Http\Resources\ArchetypeResource;
 use App\Http\Resources\DeckResource;
-use App\Http\Resources\FormatList;
+use App\Http\Resources\FormatResource;
 use App\Models\Deck;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,9 +28,9 @@ class DeckController extends Controller
         $decks = $user->decks()->with([ 'format', 'archetype' ])->get();
 
         return inertia('Decks/DeckIndex', [
-            'decks'      => $decks->map(fn (Deck $deck) => DeckResource::make($deck)->toArray($request)),
-            'archetypes' => ArchetypeList::generateKeyValue($request),
-            'formats'    => FormatList::generateKeyValue($request),
+            'decks'      => DeckResource::collection($decks)->toArray($request),
+            'archetypes' => ArchetypeResource::generateKeyValueList()->toArray($request),
+            'formats'    => FormatResource::generateKeyValueList()->toArray($request),
         ]);
     }
 

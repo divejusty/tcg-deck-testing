@@ -2,22 +2,22 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Set;
+use App\Models\Format;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Request to be used for both storing and updating a Format .
- * @link \App\Models\Format
- * @property Set|null $set
+ * @link Format
+ * @property Format|null $format
  */
 class FormatRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return is_null($this->set) ?
-            $this->user()->can('create', Set::class) :
-            $this->user()->can('edit', $this->set);
+        return is_null($this->format) ?
+            $this->user()->can('create', Format::class) :
+            $this->user()->can('edit', $this->format);
     }
 
     /**

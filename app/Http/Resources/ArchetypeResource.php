@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Contracts\Resources\GeneratesFullLists;
+use App\Models\Archetype;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ArchetypeResource extends JsonResource
+class ArchetypeResource extends JsonResource implements GeneratesFullLists
 {
     /**
      * Transform the resource into an array.
@@ -23,5 +25,14 @@ class ArchetypeResource extends JsonResource
             'can_edit'     => $user->can('update', $this->resource),
             'can_delete'   => $user->can('delete', $this->resource),
         ];
+    }
+
+    public static function generateKeyValueList(): ResourceList
+    {
+        return ResourceList::make(Archetype::get()
+            ->map(fn (Archetype $archetype) => [
+                'value' => $archetype->name,
+                'key'   => $archetype->id,
+            ]));
     }
 }
