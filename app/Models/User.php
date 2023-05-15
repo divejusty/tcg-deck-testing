@@ -3,10 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -27,6 +27,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property string|null $remember_token
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read Collection<int, \App\Models\Deck> $decks
+ * @property-read int|null $decks_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
@@ -79,7 +81,12 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'is_admin' => 'boolean',
+        'is_admin'          => 'boolean',
         'email_verified_at' => 'datetime',
     ];
+
+    public function decks(): HasMany
+    {
+        return $this->hasMany(Deck::class);
+    }
 }

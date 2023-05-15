@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -17,6 +18,8 @@ use Illuminate\Support\Carbon;
  * @property array|null $main_pokemon
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Deck> $decks
+ * @property-read int|null $decks_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Format> $formats
  * @property-read int|null $formats_count
  * @method static \Database\Factories\ArchetypeFactory factory($count = null, $state = [])
@@ -46,5 +49,10 @@ class Archetype extends Model
     public function formats(): BelongsToMany
     {
         return $this->belongsToMany(Format::class);
+    }
+
+    public function decks(): HasMany
+    {
+        return $this->hasMany(Deck::class);
     }
 }
