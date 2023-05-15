@@ -15,9 +15,12 @@ class DeckResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name'      => $this->name,
-            'format'    => FormatResource::make($this->format)->toArray($request),
-            'archetype' => ArchetypeResource::make($this->archetype)->toArray($request),
+            'id'         => $this->id,
+            'name'       => $this->name,
+            'format'     => FormatResource::make($this->format)->toArray($request),
+            'archetype'  => ArchetypeResource::make($this->archetype)->toArray($request),
+            'can_edit'   => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 }

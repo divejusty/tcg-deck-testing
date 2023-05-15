@@ -29,6 +29,7 @@ const leftItems = computed(() => {
 
     return [
         new MenuEntry('Dashboard', 'dashboard'),
+        new MenuEntry('Decks', 'decks.index'),
         new MenuEntry('Archetypes', 'archetypes.index'),
         managementMenu,
     ]
