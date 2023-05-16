@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ArchetypeStoreRequest;
-use App\Http\Requests\ArchetypeUpdateRequest;
+use App\Http\Requests\ArchetypeRequest;
 use App\Http\Resources\ArchetypeResource;
 use App\Models\Archetype;
 use App\Models\Format;
@@ -30,7 +29,7 @@ class ArchetypeController extends Controller
         ]);
     }
 
-    public function store(ArchetypeStoreRequest $request): RedirectResponse
+    public function store(ArchetypeRequest $request): RedirectResponse
     {
         $data = $request->validated();
 
@@ -44,7 +43,7 @@ class ArchetypeController extends Controller
         return to_route('archetypes.index')->with('success', "Successfully created archetype {$data['name']}!");
     }
 
-    public function update(ArchetypeUpdateRequest $request, Archetype $archetype): RedirectResponse
+    public function update(ArchetypeRequest $request, Archetype $archetype): RedirectResponse
     {
         $data = $request->validated();
 

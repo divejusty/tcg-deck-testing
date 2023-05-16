@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SetStoreRequest;
-use App\Http\Requests\SetUpdateRequest;
+use App\Http\Requests\SetRequest;
 use App\Http\Resources\SetResource;
 use App\Models\Set;
 use Illuminate\Http\RedirectResponse;
@@ -34,7 +33,7 @@ class SetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SetStoreRequest $request): RedirectResponse
+    public function store(SetRequest $request): RedirectResponse
     {
         $set = Set::create($request->validated());
 
@@ -52,7 +51,7 @@ class SetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SetUpdateRequest $request, Set $set): RedirectResponse
+    public function update(SetRequest $request, Set $set): RedirectResponse
     {
         $set->update($request->validated());
 

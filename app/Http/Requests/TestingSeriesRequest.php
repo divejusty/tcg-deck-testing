@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * @property TestingSeries $testing_series
+ * @property TestingSeries|null $testing_series
  */
 class TestingSeriesRequest extends FormRequest
 {

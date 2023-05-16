@@ -8,16 +8,15 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
 /**
- * @property Archetype $archetype
+ * @property Archetype|null $archetype
  */
-class ArchetypeUpdateRequest extends FormRequest
+class ArchetypeRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->archetype);
+        return is_null($this->archetype) ?
+            $this->user()->can('create', Archetype::class) :
+            $this->user()->can('update', $this->archetype);
     }
 
     /**
@@ -28,7 +27,11 @@ class ArchetypeUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'           => [ 'required', 'string', Rule::unique('archetypes')->ignore($this->archetype) ],
+            'name'           => [
+                is_null($this->archetype) ? 'required' : 'sometimes',
+                'string',
+                is_null($this->archetype) ? 'unique:archetypes' : Rule::unique('archetypes')->ignore($this->archetype),
+            ],
             'first_pokemon'  => [ 'nullable', 'string' ],
             'second_pokemon' => [ 'nullable', 'string' ],
         ];
