@@ -5,6 +5,7 @@ use App\Http\Controllers\DeckController;
 use App\Http\Controllers\FormatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SetController;
+use App\Http\Controllers\TestingSeriesController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -36,10 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ ProfileController::class, 'destroy' ])->name('profile.destroy');
 
     Route::apiResources([
-        '/decks'      => DeckController::class,
-        '/archetypes' => ArchetypeController::class,
-        '/sets'       => SetController::class,
-        '/formats'    => FormatController::class,
+        '/archetypes'     => ArchetypeController::class,
+        '/decks'          => DeckController::class,
+        '/formats'        => FormatController::class,
+        '/sets'           => SetController::class,
+        '/testing_series' => TestingSeriesController::class,
     ]);
 });
 

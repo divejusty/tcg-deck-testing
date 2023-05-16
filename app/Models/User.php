@@ -31,6 +31,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $decks_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection<int, \App\Models\TestingSeries> $testingSeries
+ * @property-read int|null $testing_series_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -88,5 +90,10 @@ class User extends Authenticatable
     public function decks(): HasMany
     {
         return $this->hasMany(Deck::class);
+    }
+
+    public function testingSeries(): HasMany
+    {
+        return $this->hasMany(TestingSeries::class);
     }
 }
