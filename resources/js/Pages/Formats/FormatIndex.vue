@@ -3,8 +3,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
 import FormatCreateForm from './Partials/FormatCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
-import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import { Header2 } from "@/Components/Headers"
+import FormatCard from "@/Pages/Formats/Partials/FormatCard.vue"
 
 const props = defineProps({
     formats: {
@@ -20,11 +20,6 @@ const props = defineProps({
         default: [],
     },
 })
-
-const setName = (setId) => {
-    let set = props.sets.find(set => set.id === setId)
-    return set ? set.name : '?'
-}
 </script>
 
 <template>
@@ -39,26 +34,11 @@ const setName = (setId) => {
         </template>
 
         <TemplateBox>
-            <div
-                v-for="(format, key) in formats"
-                :key="key"
-                class="flex flex-row justify-between my-2"
-            >
-                <h3>{{ format.name }}</h3>
-                <div>
-                    {{ setName(format.from_set_id) }} - {{ setName(format.to_set_id) }}
-                </div>
-                <div>
-                    {{ format.is_current ? 'Currently active format' : 'Not Active' }}
-                </div>
-                <div class="flex gap-2">
-                    <FormatCreateForm v-if="format.can_edit" :format="format" :sets="sets"/>
-                    <ResourceDeleteForm v-if="format.can_delete"
-                                        :resource-name="format.name"
-                                        resource-type="format"
-                                        :destroyRoute="route('formats.destroy', {format: format.id})"/>
-                </div>
-            </div>
+            <FormatCard v-for="(format, key) in formats"
+                        :key="key"
+                        :format="format"
+                        :sets="sets"
+            />
         </TemplateBox>
 
     </AuthenticatedLayout>
