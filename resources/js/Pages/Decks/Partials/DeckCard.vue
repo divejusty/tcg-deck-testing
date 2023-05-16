@@ -1,17 +1,19 @@
 <script setup>
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import DeckCreateForm from "@/Pages/Decks/Partials/DeckCreateForm.vue"
+import ArchetypeIcon from "@/Components/Indicators/ArchetypeIcon.vue"
+import { CardHeader } from "@/Components/Headers"
 
 const props = defineProps({
     deck: {
         type: Object,
         required: true,
     },
-    archetypes : {
+    archetypes: {
         type: Array,
         default: [],
     },
-    formats : {
+    formats: {
         type: Array,
         default: [],
     },
@@ -22,9 +24,10 @@ const props = defineProps({
     <div class="flex flex-row justify-between my-2">
         <span class="flex flex-col gap-1">
             <span class="flex flex-row gap-2 content-center">
-                <span class="font-bold">{{ deck.name }}</span>
+                <CardHeader>{{ deck.name }}</CardHeader>
             </span>
         </span>
+        <ArchetypeIcon :archetype="deck.archetype"/>
         <div class="flex gap-2 flex-grow-0">
             <DeckCreateForm v-if="deck.can_edit" :deck="deck" :archetypes="archetypes" :formats="formats"/>
             <ResourceDeleteForm v-if="deck.can_delete"

@@ -1,11 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import TemplateBox from '@/Components/Layout/TemplateBox.vue'
-import PokemonIcon from '@/Components/Images/PokemonIcon.vue'
 import ArchetypeCreateForm from './Partials/ArchetypeCreateForm.vue'
 import { Head } from '@inertiajs/vue3'
-import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import { Header2 } from "@/Components/Headers"
+import ArchetypeCard from "@/Pages/Archetypes/Partials/ArchetypeCard.vue"
 
 defineProps({
     archetypes: {
@@ -35,30 +34,10 @@ defineProps({
         </template>
 
         <TemplateBox>
-            <div
-                v-for="(archetype, key) in archetypes"
-                :key="key"
-                class="flex flex-row justify-between my-2"
-            >
-                <h3>{{ archetype.name }}</h3>
-                <div class="flex gap-2">
-                    <!-- TODO: move the icon logic to a separate component-->
-                    <PokemonIcon v-for="pokemon in archetype.main_pokemon"
-                                 :key="pokemon"
-                                 :pokemon="pokemon"
-                    />
-                    <PokemonIcon v-if="archetype.main_pokemon.length === 0"/>
-                </div>
-                <div class="flex gap-2">
-                    <ArchetypeCreateForm v-if="archetype.can_edit"
-                                         :archetype="archetype"
-                                         :formats="formats"/>
-                    <ResourceDeleteForm v-if="archetype.can_delete"
-                                        :resource-name="archetype.name"
-                                        resource-type="archetype"
-                                        :destroyRoute="route('archetypes.destroy', {archetype: archetype.id})"/>
-                </div>
-            </div>
+            <ArchetypeCard v-for="(archetype, key) in archetypes"
+                           :key="key"
+                           :archetype="archetype"
+            />
         </TemplateBox>
 
     </AuthenticatedLayout>

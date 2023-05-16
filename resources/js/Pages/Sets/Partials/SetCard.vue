@@ -1,7 +1,8 @@
 <script setup>
 import SetCreateForm from "@/Pages/Sets/Partials/SetCreateForm.vue"
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
-import SetIcon from "@/Components/Images/SetIcon.vue"
+import SetIcon from "@/Components/Indicators/SetIcon.vue"
+import { CardHeader } from "@/Components/Headers"
 
 const props = defineProps({
     set: {
@@ -15,7 +16,7 @@ const props = defineProps({
     <div class="flex flex-row justify-between my-2">
         <span class="flex flex-col gap-1">
             <span class="flex flex-row gap-2 content-center">
-                <span class="font-bold">{{ set.name }}</span>
+                <CardHeader>{{ set.name }}</CardHeader>
                 <span>
                     <SetIcon :set-code="set.code"/>
                 </span>
