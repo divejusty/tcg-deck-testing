@@ -3,17 +3,22 @@ import ArchetypeIcon from "@/Components/Indicators/ArchetypeIcon.vue"
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import ArchetypeCreateForm from "@/Pages/Archetypes/Partials/ArchetypeCreateForm.vue"
 import { CardHeader } from "@/Components/Headers"
+import DetailCard from "@/Components/Layout/DetailCard.vue"
 
 const props = defineProps({
     archetype: {
         type: Object,
         required: true,
     },
+    formats: {
+        type: Array,
+        required: true,
+    },
 })
 </script>
 
 <template>
-    <div class="flex flex-row justify-between my-2">
+    <DetailCard>
         <CardHeader>{{ archetype.name }}</CardHeader>
         <div class="flex gap-2">
             <ArchetypeIcon :archetype="archetype"/>
@@ -27,5 +32,5 @@ const props = defineProps({
                                 resource-type="archetype"
                                 :destroyRoute="route('archetypes.destroy', {archetype: archetype.id})"/>
         </div>
-    </div>
+    </DetailCard>
 </template>

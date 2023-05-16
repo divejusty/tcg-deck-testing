@@ -3,6 +3,7 @@ import SetCreateForm from "@/Pages/Sets/Partials/SetCreateForm.vue"
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import SetIcon from "@/Components/Indicators/SetIcon.vue"
 import { CardHeader } from "@/Components/Headers"
+import DetailCard from "@/Components/Layout/DetailCard.vue"
 
 const props = defineProps({
     set: {
@@ -13,7 +14,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="flex flex-row justify-between my-2">
+    <DetailCard>
         <span class="flex flex-col gap-1">
             <span class="flex flex-row gap-2 content-center">
                 <CardHeader>{{ set.name }}</CardHeader>
@@ -31,5 +32,5 @@ const props = defineProps({
                                 resource-type="set"
                                 :destroyRoute="route('sets.destroy', {set: set.id})"/>
         </div>
-    </div>
+    </DetailCard>
 </template>

@@ -3,6 +3,7 @@ import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import DeckCreateForm from "@/Pages/Decks/Partials/DeckCreateForm.vue"
 import ArchetypeIcon from "@/Components/Indicators/ArchetypeIcon.vue"
 import { CardHeader } from "@/Components/Headers"
+import DetailCard from "@/Components/Layout/DetailCard.vue"
 
 const props = defineProps({
     deck: {
@@ -21,7 +22,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="flex flex-row justify-between my-2">
+    <DetailCard>
         <span class="flex flex-col gap-1">
             <span class="flex flex-row gap-2 content-center">
                 <CardHeader>{{ deck.name }}</CardHeader>
@@ -35,5 +36,5 @@ const props = defineProps({
                                 resource-type="deck"
                                 :destroyRoute="route('decks.destroy', {deck: deck.id})"/>
         </div>
-    </div>
+    </DetailCard>
 </template>

@@ -2,6 +2,7 @@
 import ResourceDeleteForm from "@/Pages/CommonPartials/ResourceDeleteForm.vue"
 import FormatCreateForm from "@/Pages/Formats/Partials/FormatCreateForm.vue"
 import { CardHeader } from "@/Components/Headers"
+import DetailCard from "@/Components/Layout/DetailCard.vue"
 
 const props = defineProps({
     format: {
@@ -21,7 +22,7 @@ const setName = (setId) => {
 </script>
 
 <template>
-    <div class="flex flex-row justify-between my-2">
+    <DetailCard>
         <CardHeader>{{ format.name }}</CardHeader>
         <div>
             {{ setName(format.from_set_id) }} - {{ setName(format.to_set_id) }}
@@ -36,5 +37,5 @@ const setName = (setId) => {
                                 resource-type="format"
                                 :destroyRoute="route('formats.destroy', {format: format.id})"/>
         </div>
-    </div>
+    </DetailCard>
 </template>

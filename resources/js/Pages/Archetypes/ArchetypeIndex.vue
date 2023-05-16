@@ -37,6 +37,7 @@ defineProps({
             <ArchetypeCard v-for="(archetype, key) in archetypes"
                            :key="key"
                            :archetype="archetype"
+                           :formats="formats"
             />
         </TemplateBox>
 
