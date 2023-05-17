@@ -24,9 +24,7 @@ const props = defineProps({
 <template>
     <DetailCard>
         <span class="flex flex-col gap-1">
-            <span class="flex flex-row gap-2 content-center">
-                <CardHeader>{{ deck.name }}</CardHeader>
-            </span>
+            <CardHeader>{{ deck.name }}</CardHeader>
         </span>
         <ArchetypeIcon :archetype="deck.archetype"/>
         <div class="flex gap-2 flex-grow-0">

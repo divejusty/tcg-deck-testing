@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TestingSeriesRequest;
+use App\Http\Resources\FormatResource;
 use App\Http\Resources\TestingSeriesResource;
 use App\Models\TestingSeries;
 use Illuminate\Http\RedirectResponse;
@@ -26,7 +27,8 @@ class TestingSeriesController extends Controller
     {
         $series = $request->user()->testingSeries()->with([ 'format' ])->get();
         return inertia('TestingSeries/SeriesIndex', [
-            'series' => TestingSeriesResource::collection($series)->toArray($request),
+            'series'  => TestingSeriesResource::collection($series)->toArray($request),
+            'formats' => FormatResource::generateKeyValueList()->toArray($request),
         ]);
     }
 

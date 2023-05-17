@@ -15,9 +15,11 @@ class TestingSeriesResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'     => $this->id,
-            'name'   => $this->name,
-            'format' => FormatResource::make($this->format)->toArray($request),
+            'id'         => $this->id,
+            'name'       => $this->name,
+            'format'     => FormatResource::make($this->format)->toArray($request),
+            'can_edit'   => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 }

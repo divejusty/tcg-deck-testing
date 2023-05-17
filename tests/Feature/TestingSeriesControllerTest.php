@@ -29,6 +29,7 @@ class TestingSeriesControllerTest extends TestCase
             ->assertInertia(fn (AssertableInertia $page) => $page
                 ->component('TestingSeries/SeriesIndex')
                 ->has('series', 7)
+                ->has('formats', 1)
             );
     }
 

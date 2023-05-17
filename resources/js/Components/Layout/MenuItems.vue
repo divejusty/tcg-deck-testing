@@ -23,14 +23,15 @@ const leftItems = computed(() => {
     }
 
     const managementMenu = usePage().props.auth.user.is_admin ? new MenuEntry('Management', [
-        {name: 'Sets', target: 'sets.index'},
+        {name: 'Archetypes', target: 'archetypes.index'},
         {name: 'Formats', target: 'formats.index'},
+        {name: 'Sets', target: 'sets.index'},
     ]) : []
 
     return [
-        new MenuEntry('Dashboard', 'dashboard'),
+        new MenuEntry('Home', 'dashboard'),
         new MenuEntry('Decks', 'decks.index'),
-        new MenuEntry('Archetypes', 'archetypes.index'),
+        new MenuEntry('Testing Series', 'testing_series.index'),
         managementMenu,
     ]
 })
