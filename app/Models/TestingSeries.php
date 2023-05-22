@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int $id
  * @property string $name
+ * @property bool $active
  * @property int $user_id
  * @property int $format_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries whereFormatId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TestingSeries whereId($value)
@@ -31,20 +33,25 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class TestingSeries extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'format_id',
-    ];
+	protected $fillable = [
+		'name',
+		'active',
+		'format_id',
+	];
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
+	protected $casts = [
+		'active' => 'bool',
+	];
 
-    public function format(): BelongsTo
-    {
-        return $this->belongsTo(Format::class);
-    }
+	public function user(): BelongsTo
+	{
+		return $this->belongsTo(User::class);
+	}
+
+	public function format(): BelongsTo
+	{
+		return $this->belongsTo(Format::class);
+	}
 }

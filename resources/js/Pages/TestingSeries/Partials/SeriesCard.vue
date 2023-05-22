@@ -18,7 +18,15 @@ const props = defineProps({
 
 <template>
     <DetailCard>
-        <CardHeader>{{ series.name }}</CardHeader>
+        <CardHeader>
+			{{ series.name }}
+		</CardHeader>
+		<div>
+			{{ series.format.name }}
+		</div>
+		<div>
+			{{ series.active ? 'Currently testing' : 'Inactive' }}
+		</div>
         <div class="flex gap-2 flex-grow-0">
             <SeriesCreateForm v-if="series.can_edit" :series="series" :formats="formats"/>
             <ResourceDeleteForm v-if="series.can_delete"

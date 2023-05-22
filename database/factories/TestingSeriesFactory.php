@@ -9,15 +9,23 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class TestingSeriesFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            'name' => fake()->name,
-        ];
-    }
+	/**
+	 * Define the model's default state.
+	 *
+	 * @return array<string, mixed>
+	 */
+	public function definition(): array
+	{
+		return [
+			'name'   => fake()->name,
+			'active' => true,
+		];
+	}
+
+	public function inactive(): TestingSeriesFactory
+	{
+		return $this->state(fn (array $attributes) => [
+			'active' => false,
+		]);
+	}
 }

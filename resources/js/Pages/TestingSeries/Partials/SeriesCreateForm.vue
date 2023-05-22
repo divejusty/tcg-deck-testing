@@ -1,6 +1,6 @@
 <script setup>
 import { PrimaryButton } from '@/Components/Buttons'
-import { FormActionButtons, FormGroup, SelectBox, TextInput } from '@/Components/Forms'
+import { Checkbox, FormActionButtons, FormGroup, InputLabel, SelectBox, TextInput } from '@/Components/Forms'
 import { Header3 } from "@/Components/Headers"
 import Modal from '@/Components/Modal.vue'
 import { useForm } from '@inertiajs/vue3'
@@ -19,6 +19,7 @@ const props = defineProps({
 
 const form = useForm({
 	name: props.series ? props.series.name : '',
+	active: props.series ? props.series.active : false,
 	format_id: props.series ? props.series.format.id : null,
 })
 
@@ -75,6 +76,15 @@ const saveForm = () => {
 
 			<FormGroup name="Format" field-id="format" :error-message="form.errors.format_id">
 				<SelectBox :items="formats" v-model="form.format_id" id="format"/>
+			</FormGroup>
+
+			<FormGroup :error-message="form.errors.active">
+				<InputLabel for="active">
+					<Checkbox name="active"
+							  v-model:checked="form.active"
+					/>
+					Currently active testing series?
+				</InputLabel>
 			</FormGroup>
 
 			<div class="mt-6 flex justify-end">
