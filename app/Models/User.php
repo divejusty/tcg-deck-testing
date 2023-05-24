@@ -31,6 +31,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @property-read int|null $decks_count
  * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read Collection<int, \App\Models\TestResult> $testResults
+ * @property-read int|null $test_results_count
  * @property-read Collection<int, \App\Models\TestingSeries> $testingSeries
  * @property-read int|null $testing_series_count
  * @property-read Collection<int, PersonalAccessToken> $tokens
@@ -52,48 +54,53 @@ use Laravel\Sanctum\PersonalAccessToken;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
-    use Notifiable;
+	use HasApiTokens;
+	use HasFactory;
+	use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array<int, string>
+	 */
+	protected $fillable = [
+		'name',
+		'email',
+		'password',
+	];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+	/**
+	 * The attributes that should be hidden for serialization.
+	 *
+	 * @var array<int, string>
+	 */
+	protected $hidden = [
+		'password',
+		'remember_token',
+	];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'is_admin'          => 'boolean',
-        'email_verified_at' => 'datetime',
-    ];
+	/**
+	 * The attributes that should be cast.
+	 *
+	 * @var array<string, string>
+	 */
+	protected $casts = [
+		'is_admin'          => 'boolean',
+		'email_verified_at' => 'datetime',
+	];
 
-    public function decks(): HasMany
-    {
-        return $this->hasMany(Deck::class);
-    }
+	public function decks(): HasMany
+	{
+		return $this->hasMany(Deck::class);
+	}
 
-    public function testingSeries(): HasMany
-    {
-        return $this->hasMany(TestingSeries::class);
-    }
+	public function testingSeries(): HasMany
+	{
+		return $this->hasMany(TestingSeries::class);
+	}
+
+	public function testResults(): HasMany
+	{
+		return $this->hasMany(TestResult::class);
+	}
 }
