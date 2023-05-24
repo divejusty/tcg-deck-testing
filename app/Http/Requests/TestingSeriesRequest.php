@@ -28,11 +28,11 @@ class TestingSeriesRequest extends FormRequest
 	 */
 	public function rules(): array
 	{
-		$fieldPresense = is_null($this->testing_series) ? 'required' : 'sometimes';
+		$fieldPresence = is_null($this->testing_series) ? 'required' : 'sometimes';
 		return [
-			'name'      => [ $fieldPresense, 'string' ],
-			'active'    => [ $fieldPresense, 'boolean' ],
-			'format_id' => [ $fieldPresense, 'exists:formats,id' ],
+			'name'      => [ $fieldPresence, 'string' ],
+			'active'    => [ $fieldPresence, 'boolean' ],
+			'format_id' => [ $fieldPresence, 'exists:formats,id' ],
 		];
 	}
 }

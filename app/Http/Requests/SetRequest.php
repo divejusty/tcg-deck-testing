@@ -13,26 +13,26 @@ use Illuminate\Validation\Rule;
  */
 class SetRequest extends FormRequest
 {
-    public function authorize()
-    {
-        return is_null($this->set) ?
-            $this->user()->can('create', Set::class) :
-            $this->user()->can('update', $this->set);
-    }
+	public function authorize()
+	{
+		return is_null($this->set) ?
+			$this->user()->can('create', Set::class) :
+			$this->user()->can('update', $this->set);
+	}
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array|string>
-     */
-    public function rules(): array
-    {
-        $fieldPresense = is_null($this->set) ? 'required' : 'sometimes';
-        $uniqueRule = is_null($this->set) ? Rule::unique('sets') : Rule::unique('sets')->ignore($this->set);
-        return [
-            'name'         => [ $fieldPresense, 'string', $uniqueRule ],
-            'code'         => [ $fieldPresense, 'string', $uniqueRule, 'max:8' ],
-            'release_date' => [ $fieldPresense, 'date' ],
-        ];
-    }
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array<string, ValidationRule|array|string>
+	 */
+	public function rules(): array
+	{
+		$fieldPresence = is_null($this->set) ? 'required' : 'sometimes';
+		$uniqueRule = is_null($this->set) ? Rule::unique('sets') : Rule::unique('sets')->ignore($this->set);
+		return [
+			'name'         => [ $fieldPresence, 'string', $uniqueRule ],
+			'code'         => [ $fieldPresence, 'string', $uniqueRule, 'max:8' ],
+			'release_date' => [ $fieldPresence, 'date' ],
+		];
+	}
 }
