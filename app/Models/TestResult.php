@@ -76,6 +76,6 @@ class TestResult extends Model
 
 	public function testingSeries(): BelongsTo
 	{
-		return $this->belongsTo(TestingSeries::class, 'testing_series');
+		return $this->belongsTo(TestingSeries::class, 'testing_series_id');
 	}
 }

@@ -23,7 +23,7 @@ class TestResultController extends Controller
 	{
 		$request->user()->testResults()->create($request->validated());
 
-		return back()->with('success', 'Successfully added test result');
+		return back()->with('success', 'Successfully added result');
 	}
 
 	/**
@@ -41,7 +41,7 @@ class TestResultController extends Controller
 	{
 		$testResult->update($request->validated());
 
-		return back()->with('success', 'Successfully updated test result');
+		return back()->with('success', 'Successfully updated result');
 	}
 
 	/**
@@ -51,6 +51,6 @@ class TestResultController extends Controller
 	{
 		$testResult->delete();
 
-		return back()->with('success', "Successfully deleted test result");
+		return back()->with('success', "Successfully deleted result");
 	}
 }

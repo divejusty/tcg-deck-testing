@@ -38,12 +38,12 @@ Route::middleware('auth')->group(function () {
 	Route::delete('/profile', [ ProfileController::class, 'destroy' ])->name('profile.destroy');
 
 	Route::apiResources([
-		'/archetypes'      => ArchetypeController::class,
-		'/decks'           => DeckController::class,
-		'/formats'         => FormatController::class,
-		'/sets'            => SetController::class,
-		'/testing_results' => TestResultController::class,
-		'/testing_series'  => TestingSeriesController::class,
+		'/archetypes'     => ArchetypeController::class,
+		'/decks'          => DeckController::class,
+		'/formats'        => FormatController::class,
+		'/sets'           => SetController::class,
+		'/test_results'   => TestResultController::class,
+		'/testing_series' => TestingSeriesController::class,
 	]);
 });
 

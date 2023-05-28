@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Format;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +18,9 @@ class TestingSeriesFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'name'   => fake()->name,
-			'active' => true,
+			'name'      => fake()->name,
+			'format_id' => Format::factory(),
+			'active'    => true,
 		];
 	}
 

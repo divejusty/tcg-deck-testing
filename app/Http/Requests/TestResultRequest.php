@@ -19,9 +19,9 @@ class TestResultRequest extends FormRequest
 	 */
 	public function authorize(): bool
 	{
-		return is_null($this->test_result)  ?
-			$this->user()->can('update', $this->test_result) :
-			$this->user()->can('create', TestResult::class);
+		return is_null($this->test_result) ?
+			$this->user()->can('create', TestResult::class) :
+			$this->user()->can('update', $this->test_result);
 	}
 
 	/**
@@ -38,9 +38,9 @@ class TestResultRequest extends FormRequest
 				$fieldPresence,
 				Rule::exists('decks', 'id')->where('user_id', $this->user()->id),
 			],
-			'opponent_archetype_id' => [$fieldPresence, 'exists:archetypes,id'],
+			'opponent_archetype_id' => [ $fieldPresence, 'exists:archetypes,id' ],
 			'testing_series_id'     => [
-				'required',
+				$fieldPresence,
 				Rule::exists('testing_series', 'id')->where('user_id', $this->user()->id),
 			],
 			'result'                => [ $fieldPresence, Rule::enum(Result::class) ],
