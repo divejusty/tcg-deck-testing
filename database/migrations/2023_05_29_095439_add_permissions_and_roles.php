@@ -2,6 +2,7 @@
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration {
@@ -31,6 +32,8 @@ return new class extends Migration {
 	 */
 	public function down(): void
 	{
+		// Set the user
+		User::all()->each->update([ 'role_id' => null ]);
 		$roles = Role::all();
 		$roles->each(function (Role $role) {
 			$role->permissions()->sync([]);

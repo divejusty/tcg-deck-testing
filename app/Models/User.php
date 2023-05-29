@@ -69,6 +69,7 @@ class User extends Authenticatable
 		'name',
 		'email',
 		'password',
+		'role_id',
 	];
 
 	// Always load the role and permissions for a user
