@@ -10,114 +10,105 @@ use Tests\TestCase;
 
 class FormatControllerTest extends TestCase
 {
-    protected User $user;
+	protected User $adminUser;
 
-    public function setup(): void
-    {
-        parent::setup();
+	public function setup(): void
+	{
+		parent::setup();
 
-        Format::factory(10)->create();
+		Format::factory(10)->create();
 
-        $this->user = User::factory()->create();
-        $this->actingAs($this->user);
-    }
+		$this->adminUser = User::factory()->admin()->create();
+		$this->actingAs($this->adminUser);
+	}
 
-    public function test_index(): void
-    {
-        $this->get(route('formats.index'))
-            ->assertOk()
-            ->assertInertia(fn (AssertableInertia $page) => $page
-                ->has('formats', 10)
-                ->where('can_create', false)
-                ->has('sets')
-            );
-    }
+	public function test_index(): void
+	{
+		$this->adminUser->role()->disassociate()->save();
 
-    public function test_store()
-    {
-        $postData = [
-            'name'       => 'testformat',
-            'is_current' => false,
-        ];
+		$this->get(route('formats.index'))
+			->assertOk()
+			->assertInertia(fn (AssertableInertia $page) => $page
+				->has('formats', 10)
+				->where('can_create', false)
+				->has('sets')
+			);
+	}
 
-        // First test without permissions
-        $this->post(route('formats.store'), $postData)
-            ->assertForbidden();
+	public function test_store()
+	{
+		$normalUser = User::factory()->create();
+		$this->actingAs($normalUser);
+		$postData = [
+			'name'       => 'testformat',
+			'is_current' => false,
+		];
 
-        $this->assertEquals(10, Format::count());
+		// First test without permissions
+		$this->post(route('formats.store'), $postData)
+			->assertForbidden();
 
-        // Now give the user permissions and try again
-        $this->user->is_admin = true;
-        $this->user->save();
+		$this->assertEquals(10, Format::count());
 
-        $this->post(route('formats.store'), $postData)
-            ->assertRedirect(route('formats.index'))
-            ->assertSessionHas('success', "Successfully created format {$postData['name']}!");
+		// Now use the admin user
+		$this->actingAs($this->adminUser);
 
-        $this->assertEquals(11, Format::count());
-    }
+		$this->post(route('formats.store'), $postData)
+			->assertRedirect(route('formats.index'))
+			->assertSessionHas('success', "Successfully created format {$postData['name']}!");
 
-    public function test_store_with_input_error()
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
+		$this->assertEquals(11, Format::count());
+	}
 
-        $this->post(route('formats.store'))
-            ->assertRedirect()
-            ->assertSessionHasErrors([ 'name', 'is_current' ]);
-    }
+	public function test_store_with_input_error()
+	{
+		$this->post(route('formats.store'))
+			->assertRedirect()
+			->assertSessionHasErrors([ 'name', 'is_current' ]);
+	}
 
-    public function test_store_with_sets()
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
+	public function test_store_with_sets()
+	{
+		$setFrom = Set::factory()->create();
+		$setTo = Set::factory()->create();
 
-        $setFrom = Set::factory()->create();
-        $setTo = Set::factory()->create();
+		$this->post(route('formats.store'), [
+			'name'        => 'testformat',
+			'is_current'  => true,
+			'from_set_id' => $setFrom->id,
+			'to_set_id'   => $setTo->id,
+		])->assertRedirect(route('formats.index'))
+			->assertSessionHasNoErrors()
+			->assertSessionHas('success', "Successfully created format testformat!");
 
-        $this->post(route('formats.store'), [
-            'name'        => 'testformat',
-            'is_current'  => true,
-            'from_set_id' => $setFrom->id,
-            'to_set_id'   => $setTo->id,
-        ])->assertRedirect(route('formats.index'))
-            ->assertSessionHasNoErrors()
-            ->assertSessionHas('success', "Successfully created format testformat!");
+		/** @var Format $format */
+		$format = Format::orderByDesc('id')->first();
 
-        /** @var Format $format */
-        $format = Format::orderByDesc('id')->first();
+		$this->assertEquals($setFrom->id, $format->from_set_id);
+		$this->assertEquals($setTo->id, $format->to_set_id);
+	}
 
-        $this->assertEquals($setFrom->id, $format->from_set_id);
-        $this->assertEquals($setTo->id, $format->to_set_id);
-    }
+	public function test_update()
+	{
+		$format = Format::factory()->create();
 
-    public function test_update()
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
+		$this->patch(route('formats.update', [ 'format' => $format->id ]), [
+			'name'       => $format->name,
+			'is_current' => false,
+		])->assertRedirect(route('formats.index'))
+			->assertSessionHas('success', "Successfully updated format $format->name!");
 
-        $format = Format::factory()->create();
+		$format->refresh();
 
-        $this->patch(route('formats.update', [ 'format' => $format->id ]), [
-            'name'       => $format->name,
-            'is_current' => false,
-        ])->assertRedirect(route('formats.index'))
-            ->assertSessionHas('success', "Successfully updated format $format->name!");
+		$this->assertFalse($format->is_current);
+	}
 
-        $format->refresh();
+	public function test_destroy()
+	{
+		$format = Format::first();
 
-        $this->assertFalse($format->is_current);
-    }
-
-    public function test_destroy()
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
-
-        $format = Format::first();
-
-        $this->delete(route('formats.destroy', [ 'format' => $format->id ]))
-            ->assertRedirect(route('formats.index'))
-            ->assertSessionHas('success', "Successfully deleted format $format->name!");
-    }
+		$this->delete(route('formats.destroy', [ 'format' => $format->id ]))
+			->assertRedirect(route('formats.index'))
+			->assertSessionHas('success', "Successfully deleted format $format->name!");
+	}
 }

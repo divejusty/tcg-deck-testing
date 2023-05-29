@@ -10,103 +10,93 @@ use Tests\TestCase;
 
 class ArchetypeControllerTest extends TestCase
 {
-    protected User $user;
+	protected User $user;
 
-    public function setup(): void
-    {
-        parent::setup();
+	public function setup(): void
+	{
+		parent::setup();
 
-        Archetype::factory(10)->create();
+		Archetype::factory(10)->create();
 
-        $this->user = User::factory()->create();
-        $this->actingAs($this->user);
-    }
+		$this->user = User::factory()->admin()->create();
+		$this->actingAs($this->user);
+	}
 
-    public function test_requires_authentication()
-    {
-        // Logout first
-        Auth::logout();
+	public function test_requires_authentication()
+	{
+		// Logout first
+		Auth::logout();
 
-        $this->get(route('archetypes.index'))
-            ->assertRedirect(route('login'));
-    }
+		$this->get(route('archetypes.index'))
+			->assertRedirect(route('login'));
+	}
 
-    public function test_index(): void
-    {
-        $this->get(route('archetypes.index'))
-            ->assertOk()
-            ->assertInertia(fn (AssertableInertia $page) => $page
-                ->component('Archetypes/ArchetypeIndex')
-                ->has('archetypes', 10)
-                ->where('can_create', false)
-                ->has('formats')
-            );
-    }
+	public function test_index(): void
+	{
+		$this->user->role()->disassociate()->save();
 
-    public function test_index_as_admin(): void
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
+		$this->get(route('archetypes.index'))
+			->assertOk()
+			->assertInertia(fn (AssertableInertia $page) => $page
+				->component('Archetypes/ArchetypeIndex')
+				->has('archetypes', 10)
+				->where('can_create', false)
+				->has('formats')
+			);
+	}
 
-        $this->get(route('archetypes.index'))
-            ->assertOk()
-            ->assertInertia(fn (AssertableInertia $page) => $page
-                ->component('Archetypes/ArchetypeIndex')
-                ->where('can_create', true)
-                ->etc()
-            );
-    }
+	public function test_index_as_admin(): void
+	{
+		$this->get(route('archetypes.index'))
+			->assertOk()
+			->assertInertia(fn (AssertableInertia $page) => $page
+				->component('Archetypes/ArchetypeIndex')
+				->where('can_create', true)
+				->etc()
+			);
+	}
 
-    public function test_create_new_model(): void
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
+	public function test_create_new_model(): void
+	{
+		$this->post(route('archetypes.store'), [
+			'name'           => 'ZoroRoc',
+			'first_pokemon'  => 'Zoroark',
+			'second_pokemon' => 'Lycanroc',
+		])->assertRedirect(route('archetypes.index'))
+			->assertSessionHas('success', 'Successfully created archetype ZoroRoc!');
 
-        $this->post(route('archetypes.store'), [
-            'name'           => 'ZoroRoc',
-            'first_pokemon'  => 'Zoroark',
-            'second_pokemon' => 'Lycanroc',
-        ])->assertRedirect(route('archetypes.index'))
-            ->assertSessionHas('success', 'Successfully created archetype ZoroRoc!');
+		$this->assertEquals(11, Archetype::count());
+		$archetype = Archetype::firstWhere('name', 'ZoroRoc');
+		$this->assertCount(2, $archetype->main_pokemon);
+		$this->assertEquals('zoroark', $archetype->main_pokemon[0]);
+	}
 
-        $this->assertEquals(11, Archetype::count());
-        $archetype = Archetype::firstWhere('name', 'ZoroRoc');
-        $this->assertCount(2, $archetype->main_pokemon);
-        $this->assertEquals('zoroark', $archetype->main_pokemon[0]);
-    }
+	public function test_update(): void
+	{
+		$archetype = Archetype::factory()->create([
+			'name'         => 'ZoroPod',
+			'main_pokemon' => [ 'Zoroark', 'Golisopod' ],
+		]);
 
-    public function test_update(): void
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
+		$this->put(route('archetypes.update', [ 'archetype' => $archetype->id ]), [
+			'name'           => 'ZoroRoc',
+			'first_pokemon'  => 'Zoroark',
+			'second_pokemon' => 'Lycanroc',
+		])->assertRedirect(route('archetypes.index'))
+			->assertSessionHas('success', 'Successfully updated archetype ZoroRoc!');
 
-        $archetype = Archetype::factory()->create([
-            'name'         => 'ZoroPod',
-            'main_pokemon' => [ 'Zoroark', 'Golisopod' ],
-        ]);
+		$archetype->refresh();
+		$this->assertEquals('ZoroRoc', $archetype->name);
+	}
 
-        $this->put(route('archetypes.update', [ 'archetype' => $archetype->id ]), [
-            'name'           => 'ZoroRoc',
-            'first_pokemon'  => 'Zoroark',
-            'second_pokemon' => 'Lycanroc',
-        ])->assertRedirect(route('archetypes.index'))
-            ->assertSessionHas('success', 'Successfully updated archetype ZoroRoc!');
+	public function test_delete(): void
+	{
+		$archetype = Archetype::first();
 
-        $archetype->refresh();
-        $this->assertEquals('ZoroRoc', $archetype->name);
-    }
+		$this->delete(route('archetypes.destroy', [ 'archetype' => $archetype->id ]))
+			->assertRedirect(route('archetypes.index'))
+			->assertSessionHas('success', "Successfully deleted archetype $archetype->name!");
 
-    public function test_delete(): void
-    {
-        $this->user->is_admin = true;
-        $this->user->save();
-
-        $archetype = Archetype::first();
-
-        $this->delete(route('archetypes.destroy', [ 'archetype' => $archetype->id ]))
-            ->assertRedirect(route('archetypes.index'))
-            ->assertSessionHas('success', "Successfully deleted archetype $archetype->name!");
-
-        $this->assertEquals(9, Archetype::count());
-    }
+		$this->assertEquals(9, Archetype::count());
+	}
 }
