@@ -23,9 +23,9 @@ const leftItems = computed(() => {
 	}
 
 	let managementMenuItems = []
-	/** @type {{ role: undefined|{permissions: [{ name: String }]} }} */
+	/** @type {{ role: null|{permissions: [{ name: String }]} }} */
 	const user = usePage().props.auth.user
-	if (user.role !== undefined && user.role.permissions.length > 0) {
+	if (user.role && user.role.permissions.length > 0) {
 		if (user.role.permissions.find((permission) => permission.name === 'archetypes')) {
 			managementMenuItems.push({name: 'Archetypes', target: 'archetypes.index'})
 		}
