@@ -19,8 +19,8 @@ const props = defineProps({
 
 const form = useForm({
 	name: props.archetype ? props.archetype.name : '',
-	first_pokemon: props.archetype ? props.archetype.first_pokemon ?? '' : '',
-	second_pokemon: props.archetype ? props.archetype.second_pokemon ?? '' : '',
+	first_pokemon: props.archetype ? props.archetype.main_pokemon[0] ?? '' : '',
+	second_pokemon: props.archetype ? props.archetype.main_pokemon[1] ?? '' : '',
 })
 
 const modalVisible = ref(false)
