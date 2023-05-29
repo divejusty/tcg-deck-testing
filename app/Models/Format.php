@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Contracts\Auditable;
+use App\Traits\IsAudited;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,8 +22,9 @@ use Illuminate\Support\Carbon;
  * @property bool $is_current
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Archetype> $archetypes
+ * @property-read Collection<int, \App\Models\Archetype> $archetypes
  * @property-read int|null $archetypes_count
+ * @property-read \App\Models\Audit|null $audit
  * @property-read \App\Models\Set|null $setFrom
  * @property-read \App\Models\Set|null $setTo
  * @method static \Database\Factories\FormatFactory factory($count = null, $state = [])
@@ -36,33 +40,34 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Format whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Format extends Model
+class Format extends Model implements Auditable
 {
-    use HasFactory;
+	use HasFactory;
+	use IsAudited;
 
-    protected $fillable = [
-        'name',
-        'is_current',
-        'from_set_id',
-        'to_set_id',
-    ];
+	protected $fillable = [
+		'name',
+		'is_current',
+		'from_set_id',
+		'to_set_id',
+	];
 
-    protected $casts = [
-        'is_current' => 'boolean',
-    ];
+	protected $casts = [
+		'is_current' => 'boolean',
+	];
 
-    public function setFrom(): BelongsTo
-    {
-        return $this->belongsTo(Set::class, 'from_set_id', 'id');
-    }
+	public function setFrom(): BelongsTo
+	{
+		return $this->belongsTo(Set::class, 'from_set_id', 'id');
+	}
 
-    public function setTo(): BelongsTo
-    {
-        return $this->belongsTo(Set::class, 'to_set_id', 'id');
-    }
+	public function setTo(): BelongsTo
+	{
+		return $this->belongsTo(Set::class, 'to_set_id', 'id');
+	}
 
-    public function archetypes(): BelongsToMany
-    {
-        return $this->belongsToMany(Archetype::class);
-    }
+	public function archetypes(): BelongsToMany
+	{
+		return $this->belongsToMany(Archetype::class);
+	}
 }

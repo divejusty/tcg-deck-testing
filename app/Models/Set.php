@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Contracts\Auditable;
+use App\Traits\IsAudited;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $release_date
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property-read \App\Models\Audit|null $audit
  * @method static \Database\Factories\SetFactory factory($count = null, $state = [])
  * @method static Builder|Set newModelQuery()
  * @method static Builder|Set newQuery()
@@ -29,22 +32,23 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Set whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Set extends Model
+class Set extends Model implements Auditable
 {
-    use HasFactory;
+	use HasFactory;
+	use IsAudited;
 
-    protected $fillable = [
-        'name',
-        'code',
-        'release_date'
-    ];
+	protected $fillable = [
+		'name',
+		'code',
+		'release_date',
+	];
 
-    protected $casts = [
-        'release_date' => 'datetime',
-    ];
+	protected $casts = [
+		'release_date' => 'datetime',
+	];
 
-    protected function legalDate(): Attribute
-    {
-        return Attribute::make(get: fn(mixed $value, array $attributes) => Carbon::parse($attributes['release_date'])->addWeeks(3))->shouldCache();
-    }
+	protected function legalDate(): Attribute
+	{
+		return Attribute::make(get: fn (mixed $value, array $attributes) => Carbon::parse($attributes['release_date'])->addWeeks(3))->shouldCache();
+	}
 }
